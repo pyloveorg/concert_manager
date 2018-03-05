@@ -1,15 +1,95 @@
-{% extends "_base.html" %}
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Rejestracja</title>
+	</head>
+	<body>
+    {% extends "_base.html" %}
+    {% set page_id = 'register' %}
 
-{% set page_id = 'register' %}
+    {% block content %}
+        <!-- Poniższy formularz wygenerowałem przy pomocy strony https://bootsnipp.com/forms -->
+            <form class="form-horizontal" method="post" action="register-confirm" id="register-form">
+                <fieldset>
 
-{% block content %}
-  <div class="row">
-    <div class="col-2"></div>
+                <!-- Form Name -->
+                <legend>Rejestracja</legend>
 
-    <div class="col-8">
-      <h3>Rejestracja</h3>
-    </div>
+                <!-- Text input-->
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="username">Nazwa użytkownika:</label>
+                  <div class="col-md-4">
+                  <input id="username" name="username" placeholder="" class="form-control input-md" required="" type="text">
+                  <span class="help-block">(do 20 znaków)</span>
+                  </div>
+                </div>
 
-    <div class="col-2"></div>
-  </div>
-{% endblock %}
+                <!-- Text input-->
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="email">Adres e-mail:</label>
+                  <div class="col-md-4">
+                  <input id="email" name="email" placeholder="" class="form-control input-md" required="" type="text">
+                  <span class="help-block">(do 30 znaków)</span>
+                  </div>
+                </div>
+
+                <!-- Password input-->
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="password1">Hasło:</label>
+                  <div class="col-md-4">
+                    <input id="password1" name="password1" placeholder="" class="form-control input-md" required="" type="password">
+                    <span class="help-block">(do 20 znaków)</span>
+                  </div>
+                </div>
+
+                <!-- Password input-->
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="password2">Powtórz hasło:</label>
+                  <div class="col-md-4">
+                    <input id="password2" name="password2" placeholder="" class="form-control input-md" required="" type="password">
+
+                  </div>
+                </div>
+
+                <!-- Multiple Radios -->
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="usertype">Typ konta:</label>
+                  <div class="col-md-4">
+                  <div class="radio">
+                    <label for="usertype-0">
+                      <input name="usertype" id="usertype-0" value="participator" checked="checked" type="radio">
+                      Uczestnik
+                    </label>
+                    </div>
+                  <div class="radio">
+                    <label for="usertype-1">
+                      <input name="usertype" id="usertype-1" value="organizer" type="radio">
+                      Organizator
+                    </label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Textarea -->
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="about">Coś o Tobie:</label>
+                  <div class="col-md-4">
+                    <textarea class="form-control" id="about" name="about"></textarea>
+                  </div>
+                </div>
+
+                    <!-- Button -->
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="button-register"></label>
+                  <div class="col-md-4">
+                    <button type ="submit" form="register-form" id="button-register" name="button-register" class="btn btn-primary">Zarejestruj się</button>
+                  </div>
+                </div>
+
+                </fieldset>
+            </form>
+
+    {% endblock %}
+	</body>
+</html>

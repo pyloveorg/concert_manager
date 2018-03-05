@@ -2,7 +2,7 @@
 <html lang=en>
 <meta charset=utf-8>
 <head>
-  <title>XxX</title>
+  <title>Aplikacja do organizacji koncertów</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
@@ -20,9 +20,22 @@
         <li class="nav-item{% if page_id == 'info' %} active{% endif %}">
           <a class="nav-link" href="{{ url_for('info') }}">Info</a>
         </li>
-        <li class="nav-item{% if page_id == 'register' %} active{% endif %}">
-          <a class="nav-link" href="#">Rejestracja</a>
+      {% if current_user.is_authenticated %}
+          <li class="nav-item{% if page_id == 'dashboard' %} active{% endif %}">
+          <a class="nav-link" href="dashboard">Panel użytkownika</a>
         </li>
+          <li class="nav-item{% if page_id == 'logout' %} active{% endif %}">
+          <a class="nav-link" href="logout">Wyloguj się</a>
+        </li>
+
+      {% else %}
+        <li class="nav-item{% if page_id == 'register' %} active{% endif %}">
+          <a class="nav-link" href="register">Rejestracja</a>
+        </li>
+        <li class="nav-item{% if page_id == 'login' %} active{% endif %}">
+          <a class="nav-link" href="login">Logowanie</a>
+        </li>
+      {% endif %}
       </ul>
     </div>
   </nav>

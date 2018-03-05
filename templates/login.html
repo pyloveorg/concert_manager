@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Logowanie</title>
+	</head>
+	<body>
+    {% extends "_base.html" %}
+    {% set page_id = 'login' %}
+
+    {% block content %}
+      <div class="row">
+        <div class="col-2">
+            <br/>
+            <hr>
+            <h3>Logowanie</h3>
+            <hr>
+            <form method="post" action="login-confirm">
+                Adres e-mail: <input type="text" name="email"/><br/>
+                Hasło: <input type="password" name="password"/><br/>
+                <input type="submit" value="Zaloguj się"/>
+            </form>
+        </div>
+
+        <div class="col-8">
+        </div>
+
+        <div class="col-2"></div>
+      </div>
+    {% endblock %}
+	</body>
+</html>

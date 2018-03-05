@@ -1,7 +1,7 @@
-__author__ = 'Piotr Dyba'
+__author__ = 'Piotr Dyba, Krzysztof Michalak'
 
 from sqlalchemy import create_engine
-from app import db, bcrypt
+from main import db
 import models
 
 
@@ -10,11 +10,10 @@ def db_start():
     db.create_all()
     db.session.commit()
     user = models.User()
-    user.username = "piotr"
-    user.password = bcrypt.generate_password_hash('pppp1234')
-    user.email = 'piotr@dyba.com.pl'
+    user.set_password('123')
+    user.username = 'admin'
+    user.email = 'admin@strona.pl'
     user.admin = True
-    user.poweruser = True
     db.session.add(user)
     db.session.commit()
 

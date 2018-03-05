@@ -1,10 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Rejestracja</title>
+	</head>
+	<body>
+    {% extends "_base.html" %}
+    {% set page_id = 'register' %}
+
+    {% block content %}
+      <div class="row">
+        <div class="col-2">
+            {% print(message) %}
+        </div>
+      </div>
+    {% endblock %}
+	</body>
 </html>
