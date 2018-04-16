@@ -1,14 +1,11 @@
 #!/usr/bin/env python
 # encoding: utf-8
 from main import app, db, loginManager
-
-from models import User
-
+from models import User, Ticket, Concert
 from flask import render_template, request, session, abort, url_for, redirect
-
-from flask_login import login_user, login_required, logout_user
-
+from flask_login import login_user, login_required, logout_user, current_user
 import re
+
 
 
 @loginManager.user_loader
@@ -22,7 +19,15 @@ def load_user(user_id):
 
 @app.route('/', methods=['GET', 'POST'])
 def info():
-    return render_template('info.html', session=session)
+    shows = Concert.query.all()
+    shows.sort(key=lambda x: x.id, reverse=True)
+    return render_template('info.html', session=session, shows = shows)
+
+@app.route("/concerts", methods=['GET', 'POST'])
+def concert_show():
+    shows = Concert.query.all()
+    shows.sort(key=lambda x: x.id, reverse=True)
+    return render_template('list_of_concerts.html', shows = shows, naglowek='Aktualna lista koncertów')
 
 
 @app.route('/login', methods=['GET'])
@@ -46,7 +51,7 @@ def login_confirm():
             # tutaj trzeba już dokonać operacji logowania
             db.session.commit()
             login_user(existing_user)
-            return redirect(url_for('dashboard'))
+            return redirect("/")
 
     return render_template("login-failed.html", message=message)
 
@@ -58,10 +63,122 @@ def logout():
     return render_template('logout.html')
 
 
-@app.route('/dashboard', methods=['GET'])
+# @app.route('/dashboard', methods=['GET'])
+# @login_required
+# def dashboard():
+#     return render_template("dashboard.html")
+
+
+#strona do dodawania koncertow - tylko dla zalogowanych
+@app.route("/concerts-add", methods=['GET', 'POST'])
+@login_required
+def concerts_add():
+    if request.method == 'POST':
+        band = request.form['band']
+        name = request.form['name']
+        opis = request.form['opis']
+        gatunek = request.form['gatunek']
+        price_plyta_ticket = int(request.form['price_plyta_ticket'])
+        price_trybuny_ticket = int(request.form['price_trybuny_ticket'])
+        price_gc_ticket = int(request.form['price_gc_ticket'])
+        price_vip_ticket = int(request.form['price_vip_ticket'])
+        nr_plyta_ticket = int(request.form['nr_plyta_ticket'])
+        nr_trybuny_ticket = int(request.form['nr_trybuny_ticket'])
+        nr_gc_ticket = int(request.form['nr_gc_ticket'])
+        nr_vip_ticket = int(request.form['nr_vip_ticket'])
+        data = request.form['data']
+        venue = request.form['venue']
+        pula = request.form['pula']
+
+        new_concert = Concert()
+        new_concert.band = band
+        new_concert.opis = opis
+        new_concert.name = name
+        new_concert.gatunek = gatunek
+        new_concert.price_plyta_ticket = price_plyta_ticket
+        new_concert.price_trybuny_ticket = price_trybuny_ticket
+        new_concert.price_gc_ticket = price_gc_ticket
+        new_concert.price_vip_ticket = price_vip_ticket
+        new_concert.nr_plyta_ticket = nr_plyta_ticket
+        new_concert.nr_trybuny_ticket = nr_trybuny_ticket
+        new_concert.nr_gc_ticket = nr_gc_ticket
+        new_concert.nr_vip_ticket = nr_vip_ticket
+        new_concert.data = data
+        new_concert.venue = venue
+        new_concert.pula = pula
+
+        db.session.add(new_concert)
+        db.session.commit()
+
+        # db.session.delete(new_concert)
+        # db.session.commit()
+        return render_template('dodano_koncert.html')
+
+    return render_template('concert_add_remove.html', naglowek='Dodaj nowe wydarzenie')
+
+
+#strona do kupowania biletow - tylko dla zalogowanych
+@app.route('/buy_ticket', methods=['GET','POST'])
+@login_required
+def buy_ticket():
+    show_id = request.args.get('id')
+    koncert = Concert.query.get(show_id)
+    return render_template("buy_ticket.html", koncert = koncert, show_id = show_id)
+
+
+#potwierdzenie po zaznaczeniu biletow do kupienia
+@app.route('/buy_ticket/confirm', methods=['GET', 'POST'])
+@login_required
+def confirm():
+    show_id = request.args.get('id')
+    koncert = Concert.query.get(show_id)
+    l_plyta = int(request.form["l_plyta"])
+    l_trybuny = int(request.form["l_trybuny"])
+    l_gc = int(request.form["l_gc"])
+    l_vip = int(request.form["l_vip"])
+    suma = l_plyta + l_trybuny + l_gc + l_vip
+    kwota =(l_plyta * koncert.price_plyta_ticket) + (l_trybuny * koncert.price_trybuny_ticket) \
+           + (l_gc * koncert.price_gc_ticket) + (l_vip * koncert.price_vip_ticket)
+    new_ticket = Ticket()
+    new_ticket.user_login = current_user.username
+    new_ticket.nr_plyta_ticket = l_plyta
+    new_ticket.price_plyta_ticket = l_plyta * koncert.price_plyta_ticket
+    new_ticket.nr_trybuny_ticket = l_trybuny
+    new_ticket.price_trybuny_ticket = l_trybuny * koncert.price_trybuny_ticket
+    new_ticket.nr_gc_ticket = l_gc
+    new_ticket.price_gc_ticket = l_gc * koncert.price_gc_ticket
+    new_ticket.nr_vip_ticket = l_vip
+    new_ticket.price_vip_ticket = l_vip * koncert.price_vip_ticket
+    new_ticket.show_id = show_id
+    new_ticket.band = koncert.band
+    db.session.add(new_ticket)
+    db.session.commit()
+    return render_template("confirm.html", suma = suma, koncert = koncert, kwota = kwota, show_id = show_id)
+
+
+#strona ze szczegółami konkretnego biletu, tylko dla zalogowanych
+#strona ma być widoczna tylko jeśli zalogowana osoba to ta która kupiła bilet
+@app.route('/ticket', methods=['GET','POST'])
+@login_required
+def ticket():
+    ticket_id = request.args.get('id')
+    ticket = Ticket.query.get(ticket_id)
+    return render_template("ticket.html", ticket = ticket, ticket_id = ticket_id)
+
+
+# tu są informacje o wszystkich zakupionych biletach, tylko dla zalogowanych
+@app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
-    return render_template("dashboard.html")
+    user_login = current_user.username
+    ticket = Ticket.query.filter_by(user_login=user_login).order_by(Ticket.ticket_id.desc())
+    return render_template("buy_dashboard.html", ticket = ticket)
+
+
+@app.route('/show/<int:id>', methods=['GET', 'POST'])
+def show(id):
+    koncert = Concert.query.get(id)
+    return render_template('koncert.html', id = id, koncert = koncert)
 
 
 @app.route('/register', methods=['GET'])
@@ -142,3 +259,5 @@ def register_confirm():
     # -----------------------------------------------------------------------------------------
 
     return render_template("register-confirm.html", message=message)
+
+

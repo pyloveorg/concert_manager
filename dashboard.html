@@ -1,0 +1,20 @@
+﻿{% extends "_base.html" %}
+
+{% set page_id = 'dashboard' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-12">
+      <h3>Panel użytkownika</h3>
+        <p>Witaj, {{ current_user.username }}! :-)</p>
+  
+
+<button onclick="location.href='/buy_ticket?id=1'" type="button">
+     Kup bilet na Metallike</button>
+
+<button onclick="location.href='/buy_ticket?id=2'" type="button">
+     Kup bilet na AC/DC </button>
+
+  </div>
+  </div>
+{% endblock %}

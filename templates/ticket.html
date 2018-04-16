@@ -1,0 +1,28 @@
+{% extends "_base.html" %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-12">
+
+       <br><br>
+
+        {% if current_user.username==ticket.user_login %}
+        Bilet nr {{ticket.ticket_id}} <br>
+        login kupującego:   {{ ticket.user_login }} <br>
+        numer koncertu: {{ticket.show_id}} <br>
+        ile biletów na płytę: {{ ticket.nr_plyta_ticket }} <br>
+        płyta cena: {{ ticket.price_plyta_ticket }} zł <br>
+        ile biletów na trybuny:   {{ ticket.nr_trybuny_ticket }} <br>
+        trybuny cena:   {{ ticket.price_trybuny_ticket }} zł <br>
+        ile biletów na golden circle: {{ ticket.nr_gc_ticket }} <br>
+        gc cena:    {{ ticket.price_gc_ticket }} zł <br>
+        ile biletów  vip: {{ ticket.nr_vip_ticket }} <br>
+        vip cena: {{ ticket.price_vip_ticket }} zł <br>
+           {% else %}
+        Tu nie ma żadnych informacji dla ciebie :-)
+        {% endif %}
+
+
+  </div>
+  </div>
+{% endblock %}

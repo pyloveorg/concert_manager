@@ -1,0 +1,27 @@
+﻿{% extends "_base.html" %}
+
+{% set page_id = 'info' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-12">
+      <h3>Potwierdzenie</h3>
+    
+
+
+
+{% if suma > 0 %}
+    Wybrałeś liczbę biletów: {{ suma }} <br> o łącznej wartości {{ kwota }} zlotych na koncert {{koncert.band}}
+        (numer koncertu: {{show_id}})
+{% else %}
+    Nie wybrałeś żadnego biletu!
+{% endif %}
+
+<br><br>
+        <a href="/">Powrót do strony głównej</a>
+
+
+
+</div>
+ </div>
+{% endblock %}

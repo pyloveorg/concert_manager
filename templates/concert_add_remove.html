@@ -1,0 +1,106 @@
+{% extends "_base.html" %}
+
+{% set page_id = 'concerts-add' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-12">
+      <h3>{{ naglowek }}</h3>
+        {% if current_user.is_authenticated %}
+        <p>Witaj, {{ current_user.username }}! :-)</p>
+        {%endif%}
+    </div>
+  </div>
+
+        {%if new_concert%}
+
+        <p>Dodano nowe wydarzenie!</p>
+
+        <table style="width: 80%; height: 15em" border>
+
+    <tr>
+    <th>Id</th>
+    <th>Nazwa wykonawcy</th>
+    <th>Opis</th>
+    <th>Gatunek</th>
+    <th>Cena biletu kat 1 - płyta</th>
+        <th>Cena biletu kat 2 - trybuny</th>
+        <th>Cena biletu kat 3 - Golden Circle</th>
+        <th>Cena biletu kat 4 - VIP</th>
+        <th>Data wydarzenia</th>
+        <th>Lokalizacja</th>
+        <th>Sugerowana pula biletow</th>
+    </tr>
+    <tr>
+
+    <td>{{new_concert.concert_id}}</td>
+    <td>{{new_concert.band}}</td>
+    <td>{{new_concert.opis}}</td>
+    <td>{{new_concert.gatunek}}</td>
+    <td>{{new_concert.price_plyta_ticket}}</td>
+        <td>{{new_concert.price_trybuny_ticket}}</td>
+        <td>{{new_concert.price_gc_ticket}}</td>
+        <td>{{new_concert.price_vip_ticket}}</td>
+        <td>{{new_concert.date}}</td>
+        <td>{{new_concert.place}}</td>
+        <td>{{new_concert.pula}}</td>
+
+    </tr>
+
+        {%endif%}
+        </table>
+
+
+    <form method="post">
+    <form action="/concerts-add" method="post">
+
+        * Pola obowiązkowe
+        <br>
+        <br><br>Nazwa koncertu *
+        <input type="text" name="name" required>
+        <br><br>Nazwa wykonawcy *
+        <input type="text" name="band" required>
+        <br><br>Opis
+        <input type="text" name="opis">
+        <br><br>Gatunek *
+        <input type="text" name="gatunek" required>
+        <br><br>Cena biletu kat 1 - płyta *
+        <input type="number" name="price_plyta_ticket" required> PLN
+        <br><br>Cena biletu kat 2 - trybuny
+        <input type="number" name="price_trybuny_ticket"> PLN
+        <br><br>Cena biletu kat 3 - Golden Circle
+        <input type="number" name="price_gc_ticket"> PLN
+        <br><br>Cena biletu kat 4 - VIP
+        <input type="number" name="price_vip_ticket"> PLN
+
+        <br><br>Data i godzina wydarzenia *
+        <input type="datetime-local" name="data" required>
+        <br><br>Lokalizacja *
+        <select name="venue" required>
+            <option>Poznań Arena</option>
+            <option>Poznań Zamek</option>
+            <option>Inna lokalizacja</option>
+	        <option selected="selected">Warszawa Torwar<option>
+            </select>
+        <input type="text" name="venue">
+        <br><br>Pula biletow na koncert łącznie:
+        <input type="number" name="pula">
+        <br><br>Pula biletow na płytę
+        <input type="number" name="nr_plyta_ticket">
+        <br><br>Sugerowana pula biletow na trybuny
+        <input type="number" name="nr_trybuny_ticket">
+        <br><br>Sugerowana pula biletow na Golden Circle
+        <input type="number" name="nr_gc_ticket">
+        <br><br>Sugerowana pula biletow VIP
+        <input type="number" name="nr_vip_ticket">
+        <br><br>
+        <button type="submit">Dodaj wydarzenie</button>
+        </form>
+
+ <br><br>
+
+    <a href="/concerts">Home</a>
+     </form>
+
+
+{% endblock %}

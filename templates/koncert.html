@@ -1,0 +1,28 @@
+{% extends "_base.html" %}
+
+{% set page_id = 'info' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-12">
+      <h3>szczegóły koncertu nr {{id}}</h3>
+
+      <h4>{{ koncert.name }} </h4>
+    zespół: {{ koncert.band }} <br>
+      gatunek: {{ koncert.gatunek }}
+    <p>{{ koncert.opis }}</p>
+
+        {% if current_user.is_authenticated %}
+      <button onclick="location.href='/buy_ticket?id={{id}}'" type="button">
+     Kup bilet na {{koncert.band}}</button>
+              {% else %}
+        <br>
+        Musisz być zalogowany, aby kupić bilet na ten koncert <br><br>
+              {% endif %}
+
+<br>
+    <a href="/">Powrót</a>
+
+    </div>
+  </div>
+{% endblock %}
