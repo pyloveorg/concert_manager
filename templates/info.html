@@ -5,7 +5,21 @@
 {% block content %}
   <div class="row">
     <div class="col-12">
-      <h3>INFO</h3>
+        <br><br>
+      <h3>LISTA KONCERTÓW</h3>
+  <ul>
+    {% for show in shows %}
+   <li>
+  <a href="/show/{{ show.id }}">{{ show.name }}</a>
+                (Zespół: {{ show.band }}, data: {{ show.data }}  Gdzie: {{show.venue}})
+ </li>
+   {% endfor %}
+ </ul>
+  <br> <br>
+      {% if current_user.is_authenticated %}
+        <button onclick="location.href='/concerts-add'" type="button">
+     Dodaj nowy koncert</button>
+      {% endif %}
     </div>
   </div>
 {% endblock %}

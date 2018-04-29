@@ -16,6 +16,27 @@ def db_start():
     user.admin = True
     db.session.add(user)
     db.session.commit()
+    ticket = models.Ticket()  #reczne wprowadzenie postĂł do bazy danych
+    ticket.nr_trybuny_ticket = "8"
+    ticket.user_login = "stara"
+    db.session.add(ticket)
+    db.session.commit()
+    show = models.Concert() #reczne wprowadzenie koncertu
+    show.name = "koncert ACDC"
+    show.band = "ACDC"
+    show.venue = "Spodek"
+    show.data = "12.06.2018"
+    show.nr_plyta_ticket = 30
+    show.price_plyta_ticket = 90
+    show.nr_trybuny_ticket = 20
+    show.price_trybuny_ticket = 100
+    show.nr_gc_ticket = 10
+    show.price_gc_ticket = 120
+    show.nr_vip_ticket = 5
+    show.price_vip_ticket = 140
+    show.opis = "Koncert jednego z najstarszych zespołów"
+    db.session.add(show)
+    db.session.commit()
 
 
 

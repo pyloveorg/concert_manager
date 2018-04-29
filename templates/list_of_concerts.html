@@ -1,0 +1,70 @@
+{% extends "_base.html" %}
+
+{% set page_id = 'concerts' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-12">
+      <h3>{{ naglowek }}</h3>
+        {% if current_user.is_authenticated %}
+        <p>Witaj, {{ current_user.username }}! :-)</p>
+        <td><a href="/concerts-add">Dodaj nowe wydarzenie</a></td>
+        {% else %}
+        <p>Witaj!</p>
+        {%endif%}
+    </div>
+  </div>
+
+    <p></p>
+
+    <form action="/concerts" method="get">
+    Wyszukaj wydarzenie: <input type="search" placeholder="Wpisz szukany tekst" />
+
+    </form>
+
+    <p></p>
+    <p></p>
+
+
+  <ul>
+    {% for show in shows %}
+   <li>
+  <a href="/show/{{ show.id }}">{{ show.name }}</a>
+                (Zespół: {{ show.band }}, data: {{ show.data }}  Gdzie: {{show.venue}})
+ </li>
+   {% endfor %}
+ </ul>
+
+
+    {%if new_concert%}
+
+
+<table style="width: 80%; height: 5em" border>
+
+    <tr>
+    <th>Id</th>
+    <th>Nazwa wykonawcy</th>
+    <th>Gatunek</th>
+    <th>Data i godzina</th>
+    <th>Miejscowość</th>
+    <th>Link</th>
+
+  </tr>
+
+    <tr>
+    <td>{{new_concert.concert_id}}</td>
+    <td>{{new_concert.band}}</td>
+    <td>{{new_concert.gatunek}}</td>
+    <td>{{new_concert.date}}</td>
+    <td>{{new_concert.place}}</td>
+    <td><a href="/concerts/{{new_concert.concert_id}}">Szczegóły wydarzenia</a></td>
+   </tr>
+
+    {%else%}
+     Brak nowych koncertów!
+
+    {%endif%}
+    </table>
+
+
+{% endblock %}
