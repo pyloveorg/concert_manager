@@ -86,7 +86,6 @@ class Concert(db.Model):
     nr_vip_ticket = db.Column(Integer)
     data = db.Column(db.String(20))
     venue = db.Column(String(30))
-    pula = db.Column(db.Integer)
 
     def get(self):
         return str(self)

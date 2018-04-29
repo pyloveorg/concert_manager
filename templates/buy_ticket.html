@@ -3,46 +3,109 @@
 {% set page_id = 'buy_ticket' %}
 
 {% block content %}
+
+<style>
+* {
+    box-sizing: border-box;
+}
+input[type=text], select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+}
+.container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+.col-50 {
+    float: left;
+    width: 50%;
+    margin-top: 6px;
+}
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+@media screen and (max-width: 600px) {
+    .col-25, .col-75, input[type=submit] {
+        width: 100%;
+        margin-top: 0;
+    }
+}
+</style>
+
+
   <div class="row">
     <div class="col-12">
-      <h3>KUP BILET</h3>
-  
+      <h3 style="font-size:30px;font-family:verdana;">Kup bilet</h3>
+
 <br>
 Chcesz kupić bilet na koncert: {{koncert.band}}<br>
 Data i miejsce koncertu: {{koncert.venue}}, {{koncert.data}}
 <br>
 <br>
+    </div>
+  </div>
 
 
-<form action="/buy_ticket/confirm?id={{show_id}}" method="POST">
+<div class="container">
+  <form action="/buy_ticket/confirm?id={{show_id}}" method="POST">
+    <div class="row">
+      <div class="col-50">
+        <label for="name">Wybierz ile chcesz kupić biletow na płytę,
+             każdy w cenie {{ "%.2f"|format(koncert.price_plyta_ticket) }} zł:</label>
+      </div>
+      <div class="col-50">
+        <input type="number" id="name" name="l_plyta" min="0" max="{{plyta2}}" step="1" value="0" required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-50">
+        <label for="name">Wybierz ile chcesz kupić biletow na trybuny,
+            każdy w cenie {{ "%.2f"|format(koncert.price_trybuny_ticket) }} zł:</label>
+      </div>
+      <div class="col-50">
+        <input type="number" id="name" name="l_trybuny" min="0" max="{{trybuny2}}" step="1" value="0" required>
+      </div>
+    </div>
+          <div class="row">
+      <div class="col-50">
+        <label for="name">Wybierz ile chcesz kupić biletow na golden circle,
+            każdy w cenie {{ "%.2f"|format(koncert.price_gc_ticket) }} zł:</label>
+      </div>
+      <div class="col-50">
+        <input type="number" id="name" name="l_gc" min="0" max="{{gc2}}" step="1" value="0" required>
+      </div>
+    </div>
+          <div class="row">
+      <div class="col-50">
+        <label for="name">Wybierz ile chcesz kupić biletow VIP,
+          każdy w cenie {{ "%.2f"|format(koncert.price_vip_ticket) }} zł:</label>
+      </div>
+      <div class="col-50">
+        <input type="number" id="name" name="l_vip" min="0" max="{{vip2}}" step="1" value="0" required>
+      </div>
+      <div class="row">
+     <button type="submit" style="border-radius:5px;margin-top:20px;padding: 12px;">Kontynuuj do kasy</button>
+      </div>
+         </form>
+    </div>
 
- <fieldset>
-    <legend>Wybierz bilety:</legend>
+
 <br>
-  Liczba biletow na płytę:
-  <input type="number" name="l_plyta" min="0" max="{{koncert.nr_plyta_ticket}}" step="1" value="0">
- każdy w cenie {{ koncert.price_plyta_ticket }} zł
-<br><br>
-  Liczba biletow na trybuny:
-  <input type="number" name="l_trybuny" min="0" max="{{koncert.nr_trybuny_ticket}}" step="1" value="0">
- każdy w cenie {{ koncert.price_trybuny_ticket }} zł
-<br><br>
- Liczba biletow na Golden Circle:
-  <input type="number" name="l_gc" min="0" max="{{koncert.nr_gc_ticket}}" step="1" value="0">
- każdy w cenie {{ koncert.price_gc_ticket }} zł
-<br><br>
-  Liczba biletow VIP:
-  <input type="number" name="l_vip" min="0" max="{{koncert.nr_vip_ticket}}" step="1" value="0">
- każdy w cenie {{ koncert.price_vip_ticket }} zł
-<br>
-<br>
- <button type="submit">Kontynuuj do kasy</button>
-  </fieldset>
-    </form>
-<br>
-            <a href="/show/{{show_id}}">Powrót</a> <br>
+    <a href="/show/{{show_id}}">Powrót do strony koncertu</a> <br>
     <a href="/">Powrót do strony głównej</a>
 
-   </div>
-  </div>
+
 {% endblock %}
+
+

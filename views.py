@@ -4,7 +4,21 @@ from main import app, db, loginManager
 from models import User, Ticket, Concert
 from flask import render_template, request, session, abort, url_for, redirect
 from flask_login import login_user, login_required, logout_user, current_user
+from functools import wraps
 import re
+
+
+# stworzenie roli do sprawdzania autoryzacji
+# ze strony http://flask.pocoo.org/snippets/98/
+def requires_roles(*roles):
+    def wrapper(f):
+        @wraps(f)
+        def wrapped(*args, **kwargs):
+            if current_user.usertype not in roles:
+                return "Nie masz autoryzacji do podglądu tej strony"
+            return f(*args, **kwargs)
+        return wrapped
+    return wrapper
 
 
 
@@ -22,13 +36,6 @@ def info():
     shows = Concert.query.all()
     shows.sort(key=lambda x: x.id, reverse=True)
     return render_template('info.html', session=session, shows = shows)
-
-@app.route("/concerts", methods=['GET', 'POST'])
-def concert_show():
-    shows = Concert.query.all()
-    shows.sort(key=lambda x: x.id, reverse=True)
-    return render_template('list_of_concerts.html', shows = shows, naglowek='Aktualna lista koncertów')
-
 
 @app.route('/login', methods=['GET'])
 def login():
@@ -63,15 +70,10 @@ def logout():
     return render_template('logout.html')
 
 
-# @app.route('/dashboard', methods=['GET'])
-# @login_required
-# def dashboard():
-#     return render_template("dashboard.html")
-
-
-#strona do dodawania koncertow - tylko dla zalogowanych
+#strona do dodawania koncertow - tylko dla zalogowanych organizatorów
 @app.route("/concerts-add", methods=['GET', 'POST'])
 @login_required
+@requires_roles("admin", "organizer")
 def concerts_add():
     if request.method == 'POST':
         band = request.form['band']
@@ -88,7 +90,6 @@ def concerts_add():
         nr_vip_ticket = int(request.form['nr_vip_ticket'])
         data = request.form['data']
         venue = request.form['venue']
-        pula = request.form['pula']
 
         new_concert = Concert()
         new_concert.band = band
@@ -105,7 +106,6 @@ def concerts_add():
         new_concert.nr_vip_ticket = nr_vip_ticket
         new_concert.data = data
         new_concert.venue = venue
-        new_concert.pula = pula
 
         db.session.add(new_concert)
         db.session.commit()
@@ -116,6 +116,16 @@ def concerts_add():
 
     return render_template('concert_add_remove.html', naglowek='Dodaj nowe wydarzenie')
 
+#strona do usuwania koncertow - tylko dla admina
+@app.route("/concerts-delete/<int:id>", methods=['GET', 'POST'])
+@login_required
+@requires_roles("admin")
+def concerts_delete(id):
+    koncert = db.session.query(Concert).get(id)
+    db.session.delete(koncert)
+    db.session.commit()
+    return render_template("concert-delete.html", id = id)
+
 
 #strona do kupowania biletow - tylko dla zalogowanych
 @app.route('/buy_ticket', methods=['GET','POST'])
@@ -123,7 +133,19 @@ def concerts_add():
 def buy_ticket():
     show_id = request.args.get('id')
     koncert = Concert.query.get(show_id)
-    return render_template("buy_ticket.html", koncert = koncert, show_id = show_id)
+    bilet = Ticket.query.filter_by(show_id=show_id).all()
+    plyta, trybuny, gc, vip = 0,0,0,0
+    for i in bilet:
+        plyta += i.nr_plyta_ticket
+        trybuny += i.nr_trybuny_ticket
+        gc += i.nr_gc_ticket
+        vip += i.nr_vip_ticket
+    plyta2 = koncert.nr_plyta_ticket - plyta
+    trybuny2 = koncert.nr_trybuny_ticket - trybuny
+    gc2 = koncert.nr_gc_ticket - gc
+    vip2 = koncert.nr_vip_ticket - vip
+    return render_template("buy_ticket.html", koncert = koncert, show_id = show_id, bilet = bilet, plyta2= plyta2,
+                           trybuny2 = trybuny2, gc2 = gc2, vip2 = vip2)
 
 
 #potwierdzenie po zaznaczeniu biletow do kupienia

@@ -2,24 +2,38 @@
 
 {% set page_id = 'info' %}
 
+
+
 {% block content %}
-  <div class="row">
-    <div class="col-12">
-        <br><br>
-      <h3>LISTA KONCERTÓW</h3>
-  <ul>
-    {% for show in shows %}
-   <li>
-  <a href="/show/{{ show.id }}">{{ show.name }}</a>
-                (Zespół: {{ show.band }}, data: {{ show.data }}  Gdzie: {{show.venue}})
- </li>
-   {% endfor %}
- </ul>
-  <br> <br>
-      {% if current_user.is_authenticated %}
-        <button onclick="location.href='/concerts-add'" type="button">
+<br>
+<p style="font-size:30px;font-family:verdana;">Najlepsza strona z koncertami</p>
+
+      {% if current_user.is_authenticated and current_user.usertype!="participator" %}
+    <div>
+         <button onclick="location.href='/concerts-add'" type="button" style="margin: 15px" class="btn btn-primary">
      Dodaj nowy koncert</button>
-      {% endif %}
     </div>
+      {% endif %}
+
+
+  <div class="row">
+      {% for show in shows %}
+      <div class="col-sm-4">
+        <div class="card">
+          <img class="card-img-top" src="http://www.cdn.ug.edu.pl/wp-content/uploads/2017/01/koncert.jpg" alt="koncert">
+          <div class="card-body">
+            <h5 class="card-title">{{ show.name }}</h5>
+            <p class="card-text">Zespół: {{ show.band }} <br> data: {{ show.data }} <br> Gdzie: {{show.venue}}</p>
+            <a href="/show/{{ show.id }}" class="btn btn-primary">Zobacz szczegóły</a>
+              {% if current_user.is_authenticated and current_user.admin == True %}
+              <a href="/concerts-delete/{{show.id}}" class="btn btn-primary" onclick="return confirm('Czy na pewno chcesz skasować ten koncert?');"
+      >Usuń ten koncert</a>
+                {% endif %}
+          </div>
+        </div>
+    </div>
+      {% endfor %}
   </div>
+
+
 {% endblock %}

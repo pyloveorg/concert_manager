@@ -5,9 +5,9 @@
 {% block content %}
   <div class="row">
     <div class="col-12">
-      <h3>{{ naglowek }}</h3>
+      <h3>{{ naglowek }}</h3> <br>
         {% if current_user.is_authenticated %}
-        <p>Witaj, {{ current_user.username }}! :-)</p>
+        <h4>{{ current_user.username }}, wypełnij pola poniżej:</h4>
         {%endif%}
     </div>
   </div>
@@ -29,7 +29,6 @@
         <th>Cena biletu kat 4 - VIP</th>
         <th>Data wydarzenia</th>
         <th>Lokalizacja</th>
-        <th>Sugerowana pula biletow</th>
     </tr>
     <tr>
 
@@ -43,7 +42,6 @@
         <td>{{new_concert.price_vip_ticket}}</td>
         <td>{{new_concert.date}}</td>
         <td>{{new_concert.place}}</td>
-        <td>{{new_concert.pula}}</td>
 
     </tr>
 
@@ -53,9 +51,8 @@
 
     <form method="post">
     <form action="/concerts-add" method="post">
-
+       <br>
         * Pola obowiązkowe
-        <br>
         <br><br>Nazwa koncertu *
         <input type="text" name="name" required>
         <br><br>Nazwa wykonawcy *
@@ -64,14 +61,14 @@
         <input type="text" name="opis">
         <br><br>Gatunek *
         <input type="text" name="gatunek" required>
-        <br><br>Cena biletu kat 1 - płyta *
-        <input type="number" name="price_plyta_ticket" required> PLN
+        <br><br>Cena biletu kat 1 - płyta
+        <input type="number" name="price_plyta_ticket" value="0"> PLN
         <br><br>Cena biletu kat 2 - trybuny
-        <input type="number" name="price_trybuny_ticket"> PLN
+        <input type="number" name="price_trybuny_ticket" value="0"> PLN
         <br><br>Cena biletu kat 3 - Golden Circle
-        <input type="number" name="price_gc_ticket"> PLN
+        <input type="number" name="price_gc_ticket" value="0"> PLN
         <br><br>Cena biletu kat 4 - VIP
-        <input type="number" name="price_vip_ticket"> PLN
+        <input type="number" name="price_vip_ticket" value="0"> PLN
 
         <br><br>Data i godzina wydarzenia *
         <input type="datetime-local" name="data" required>
@@ -83,16 +80,14 @@
 	        <option selected="selected">Warszawa Torwar<option>
             </select>
         <input type="text" name="venue">
-        <br><br>Pula biletow na koncert łącznie:
-        <input type="number" name="pula">
         <br><br>Pula biletow na płytę
-        <input type="number" name="nr_plyta_ticket">
+        <input type="number" name="nr_plyta_ticket" value="0">
         <br><br>Sugerowana pula biletow na trybuny
-        <input type="number" name="nr_trybuny_ticket">
+        <input type="number" name="nr_trybuny_ticket" value="0">
         <br><br>Sugerowana pula biletow na Golden Circle
-        <input type="number" name="nr_gc_ticket">
+        <input type="number" name="nr_gc_ticket" value="0">
         <br><br>Sugerowana pula biletow VIP
-        <input type="number" name="nr_vip_ticket">
+        <input type="number" name="nr_vip_ticket" value="0">
         <br><br>
         <button type="submit">Dodaj wydarzenie</button>
         </form>
