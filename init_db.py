@@ -14,6 +14,7 @@ def db_start():
     user.username = 'admin'
     user.email = 'admin@strona.pl'
     user.admin = True
+    user.usertype = "admin"
     db.session.add(user)
     db.session.commit()
     ticket = models.Ticket()  #reczne wprowadzenie postĂł do bazy danych

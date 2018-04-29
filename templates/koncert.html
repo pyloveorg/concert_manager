@@ -2,15 +2,22 @@
 
 {% set page_id = 'info' %}
 
-{% block content %}
-  <div class="row">
-    <div class="col-12">
-      <h3>szczegóły koncertu nr {{id}}</h3>
 
+{% block content %}
+<style>
+div.a {
+    text-align:center;
+}
+</style>
+  <div class="row">
+    <div class="col-6 a" >
+      <br>
       <h4>{{ koncert.name }} </h4>
+        <br>
     zespół: {{ koncert.band }} <br>
-      gatunek: {{ koncert.gatunek }}
-    <p>{{ koncert.opis }}</p>
+      gatunek: {{ koncert.gatunek }} <br>
+
+    <br>{{ koncert.opis }}<br><br>
 
         {% if current_user.is_authenticated %}
       <button onclick="location.href='/buy_ticket?id={{id}}'" type="button">
@@ -19,10 +26,18 @@
         <br>
         Musisz być zalogowany, aby kupić bilet na ten koncert <br><br>
               {% endif %}
+    </div>
+     <div class="col-6 b">
+ <img class="img-responsive" src="http://www.cdn.ug.edu.pl/wp-content/uploads/2017/01/koncert.jpg" alt="koncert">
+     </div>
+  </div>
 
-<br>
+
+<br><br>
     <a href="/">Powrót</a>
 
-    </div>
+
+
+
   </div>
 {% endblock %}
