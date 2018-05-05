@@ -35,7 +35,9 @@ def load_user(user_id):
 def info():
     shows = Concert.query.all()
     shows.sort(key=lambda x: x.id, reverse=True)
-    return render_template('info.html', session=session, shows = shows)
+    query = str(request.args.get('query'))
+    query1 = query.title()
+    return render_template('info.html', session=session, shows=shows, query=query, query1=query1)
 
 @app.route('/login', methods=['GET'])
 def login():
@@ -172,7 +174,7 @@ def confirm():
     new_ticket.nr_vip_ticket = l_vip
     new_ticket.price_vip_ticket = l_vip * koncert.price_vip_ticket
     new_ticket.show_id = show_id
-    new_ticket.band = koncert.band
+    new_ticket.name = koncert.name
     db.session.add(new_ticket)
     db.session.commit()
     return render_template("confirm.html", suma = suma, koncert = koncert, kwota = kwota, show_id = show_id)
@@ -282,4 +284,21 @@ def register_confirm():
 
     return render_template("register-confirm.html", message=message)
 
+#wyszukiwanie zaawansowane
 
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    query = str(request.args.get('query'))
+    query1 = str(request.args.get('query1'))
+    query2 = str(request.args.get('query2'))
+    query3 = str(request.args.get('query3'))
+    return render_template('search.html', query=query, query1=query1, query2=query2, query3=query3)
+
+
+@app.route('/regulamin', methods=['GET'])
+def regulamin():
+    return render_template('regulamin.html')
+
+@app.route('/contact', methods=['GET'])
+def contact():
+    return render_template('contact.html')

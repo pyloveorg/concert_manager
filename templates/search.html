@@ -1,0 +1,31 @@
+{% extends "_base.html" %}
+
+{% set page_id = 'search' %}
+
+{% block content %}
+
+<h3>Wyszukiwanie zaawansowane</h3>
+<br>
+<br> <form action="/" method="get">
+        Wyszukaj wydarzenie: <input type="search" name=query placeholder="Wyszukaj nazwę zespołu" size = "25"/>
+
+        </form>
+
+            {%for show in shows%}
+            {%if query in show.band%}
+
+
+       <dl>
+       <dt>Nazwa koncertu: <a href="/show/{{ show.id }}">{{ show.name }}</a></dt>
+           <br>
+       <dd>Zespół: {{ show.band}}</dd>
+       <dd>Gatunek: {{ show.gatunek }}</dd>
+       <dd>Data i godzina koncertu: {{show.data}}</dd>
+       <dd>Miejsce: {{show.venue}}</dd>
+       </dl>
+
+            {% endif %}
+            {%endfor%}
+
+
+{% endblock %}

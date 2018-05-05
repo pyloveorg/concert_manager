@@ -94,9 +94,11 @@ Data i miejsce koncertu: {{koncert.venue}}, {{koncert.data}}
       <div class="col-50">
         <input type="number" id="name" name="l_vip" min="0" max="{{vip2}}" step="1" value="0" required>
       </div>
-      <div class="row">
-     <button type="submit" style="border-radius:5px;margin-top:20px;padding: 12px;">Kontynuuj do kasy</button>
-      </div>
+              <div class="row">
+         <button onclick="location.href='/buy_ticket/confirm?id={{show_id}}'" type="submit" style="margin: 15px" class="btn btn-primary">
+     Kontynuuj do kasy</button>
+    </div>
+            </div>
          </form>
     </div>
 

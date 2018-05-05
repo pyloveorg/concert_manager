@@ -11,14 +11,14 @@
 
 
 {% if suma > 0 %}
-    Wybrałeś liczbę biletów: {{ suma }} <br> o łącznej wartości {{ kwota }} zlotych na koncert {{koncert.band}}
+    Wybrałeś liczbę biletów: {{ suma }} <br> o łącznej wartości {{ kwota }} zlotych <br>na koncert {{koncert.band}} <br> data i godzina koncertu: {{koncert.data}}
         (numer koncertu: {{show_id}})
 {% else %}
     Nie wybrałeś żadnego biletu!
 {% endif %}
 
 <br><br>
-        <a href="/">Powrót do strony głównej</a>
+        <a href="/">Home</a>
 
 
 
