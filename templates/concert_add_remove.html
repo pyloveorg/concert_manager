@@ -34,8 +34,10 @@
         <br><br>Cena biletu kat 4 - VIP
         <input type="number" name="price_vip_ticket" value="0"> PLN
 
-        <br><br>Data i godzina wydarzenia *
-        <input type="datetime-local" name="data" required>
+        <br><br>Data wydarzenia *
+        <input type="date" name="data" required>
+        <br><br>Godzina wydarzenia *
+        <input type="time" name="godzina" required>
         <br><br>Lokalizacja *
         <select name="venue" required>
             <option>Poznań Arena</option>
@@ -52,16 +54,12 @@
         <input type="number" name="nr_gc_ticket" value="0">
         <br><br>Sugerowana pula biletow VIP
         <input type="number" name="nr_vip_ticket" value="0">
-        <br><br> Dodaj plakat / zdjęcie wydarzenia:
-        <input type="image" name="plakat">
+        <br><br> Dodaj plakat / zdjęcie wydarzenia w formie url:
+        <input type="url" name="picurl" value="http://www.cdn.ug.edu.pl/wp-content/uploads/2017/01/koncert.jpg">
 
         <br><br>
-        <!--</form>-->
-        <!--<div>-->
-         <!--<button onclick="location.href='/concerts-add'" type="button" style="margin: 15px" class="btn btn-primary">-->
-     <!--Dodaj nowy koncert</button>-->
-    <!--</div>-->
-        <!--<input type="reset">-->
+  <button type="submit">Dodaj wydarzenie</button>
+   </form>
 
  <br><br>
 

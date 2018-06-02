@@ -6,7 +6,7 @@ from sqlalchemy.types import String
 from sqlalchemy.types import Boolean
 
 from main import db, bcrypt
-
+from datetime import date
 
 class User(db.Model):
     """
@@ -63,7 +63,7 @@ class Ticket(db.Model):
     nr_vip_ticket = db.Column(Integer)
     price_vip_ticket = db.Column(db.Float)
     show_id = db.Column(Integer)
-    band = db.Column(db.String(30))
+    name = db.Column(db.String(30))
 
     def get(self):
         return str(self)
@@ -84,8 +84,17 @@ class Concert(db.Model):
     nr_trybuny_ticket = db.Column(Integer)
     nr_gc_ticket = db.Column(Integer)
     nr_vip_ticket = db.Column(Integer)
-    data = db.Column(db.String(20))
+    data = db.Column(db.Date)
+    godzina = db.Column(String(7))
     venue = db.Column(String(30))
+    picurl = db.Column(String(300))
 
     def get(self):
         return str(self)
+
+    #sprawdza czy koncert już się odbył
+    @property
+    def is_past(self):
+        if date.today()> self.data:
+            return True
+        return False

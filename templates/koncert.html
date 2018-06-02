@@ -18,7 +18,8 @@ div.a {
       <b>Gatunek: </b>{{ koncert.gatunek }} <br>
 
     <br>{{ koncert.opis }}<br><br>
-    <p><b>Data i godzina wydarzenia: </b>{{koncert.data}}</p>
+
+    <p><b>Data wydarzenia: </b>{{koncert.data}} <br> <b>Godzina wydarzenia: </b>{{koncert.godzina}}</p>
         <p><b>Miejsce wydarzenia:</b> {{koncert.venue}}
             {%if koncert.venue == "Poznań Zamek"%}
             <a href="https://goo.gl/maps/yMxREW5p11E2" target="_blank">mapa</a>
@@ -37,19 +38,25 @@ div.a {
         <br>
         <br>
 
-        {% if current_user.is_authenticated %}
-
-        <div>
+     {% if current_user.is_authenticated %}
+        {% if koncert.is_past==True %}
+        Na to wydarzenie nie możesz już kupić biletów - koncert już się odbył.
+        {% else %}
+         <br> Pula biletów na ten koncert to: {{ koncert.nr_plyta_ticket+koncert.nr_trybuny_ticket+koncert.nr_vip_ticket
+        + koncert.nr_gc_ticket }}
+        <br>
+        Kliknij "kup bilet" aby sprawdzić czy bilety są jeszcze dostępne <br><br>
          <button onclick="location.href='/buy_ticket?id={{id}}'" type="button" style="margin: 15px" class="btn btn-primary">
      Kup bilet na {{koncert.band}}</button>
     </div>
-              {% else %}
+         {% endif %}
+       {% else %}
         <br>
         Musisz być zalogowany, aby kupić bilet na ten koncert!! <br><br>
-              {% endif %}
+          {% endif %}
     </div>
      <div class="col-6 b">
- <img class="img-responsive" src="http://www.cdn.ug.edu.pl/wp-content/uploads/2017/01/koncert.jpg" alt="koncert">
+ <img class="img-responsive" src="{{koncert.picurl}}"" alt="koncert">
      </div>
   </div>
 

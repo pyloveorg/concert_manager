@@ -17,16 +17,10 @@ def db_start():
     user.usertype = "admin"
     db.session.add(user)
     db.session.commit()
-    ticket = models.Ticket()  #reczne wprowadzenie postĂł do bazy danych
-    ticket.nr_trybuny_ticket = "8"
-    ticket.user_login = "stara"
-    db.session.add(ticket)
-    db.session.commit()
     show = models.Concert() #reczne wprowadzenie koncertu
     show.name = "koncert ACDC"
     show.band = "ACDC"
     show.venue = "Spodek"
-    show.data = "12.06.2018"
     show.nr_plyta_ticket = 30
     show.price_plyta_ticket = 90
     show.nr_trybuny_ticket = 20
@@ -36,6 +30,10 @@ def db_start():
     show.nr_vip_ticket = 5
     show.price_vip_ticket = 140
     show.opis = "Koncert jednego z najstarszych zespołów"
+    show.data = "2018, 6, 5"
+    show.godzina = "20:00"
+    show.venue = "Zamek"
+    show.picurl = "http://www.cdn.ug.edu.pl/wp-content/uploads/2017/01/koncert.jpg"
     db.session.add(show)
     db.session.commit()
 
