@@ -14,17 +14,38 @@ div.a {
       <br>
       <h4>{{ koncert.name }} </h4>
         <br>
-    zespół: {{ koncert.band }} <br>
-      gatunek: {{ koncert.gatunek }} <br>
+        <b>Zespół: </b>{{ koncert.band }} <br>
+      <b>Gatunek: </b>{{ koncert.gatunek }} <br>
 
     <br>{{ koncert.opis }}<br><br>
+    <p><b>Data i godzina wydarzenia: </b>{{koncert.data}}</p>
+        <p><b>Miejsce wydarzenia:</b> {{koncert.venue}}
+            {%if koncert.venue == "Poznań Zamek"%}
+            <a href="https://goo.gl/maps/yMxREW5p11E2" target="_blank">mapa</a>
+            {%elif koncert.venue == "Poznań Arena"%}
+            <a href="https://goo.gl/maps/AR1JB3qTx2U2" target="_blank">mapa</a>
+            {%elif koncert.venue == "Warszawa Torwar"%}
+            <a href="https://goo.gl/maps/oNSUs29WeoA2" target="_blank">mapa</a>
+            {%else%}
+            <form action="http://www.google.pl/maps" method="get" target="_blank">
+            <input type="text" name="q" placeholder="Wyszukaj miejce w Google Maps" size = "35"/>
+            <input type="hidden" name="ie" value="iso-8859-2" />
+            <input type="hidden" name="sitesearch" value="http://www.google.pl/maps" />
+            </form>
+            {%endif%}
+
+        <br>
+        <br>
 
         {% if current_user.is_authenticated %}
-      <button onclick="location.href='/buy_ticket?id={{id}}'" type="button">
+
+        <div>
+         <button onclick="location.href='/buy_ticket?id={{id}}'" type="button" style="margin: 15px" class="btn btn-primary">
      Kup bilet na {{koncert.band}}</button>
+    </div>
               {% else %}
         <br>
-        Musisz być zalogowany, aby kupić bilet na ten koncert <br><br>
+        Musisz być zalogowany, aby kupić bilet na ten koncert!! <br><br>
               {% endif %}
     </div>
      <div class="col-6 b">
@@ -37,7 +58,4 @@ div.a {
     <a href="/">Powrót</a>
 
 
-
-
-  </div>
 {% endblock %}

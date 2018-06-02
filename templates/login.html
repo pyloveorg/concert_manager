@@ -16,9 +16,13 @@
             <h3>Logowanie</h3>
             <hr>
             <form method="post" action="login-confirm">
-                Adres e-mail: <input type="text" name="email"/><br/>
+                Adres e-mail: <input type="text" name="email" size = "35"/><br/>
                 Hasło: <input type="password" name="password"/><br/>
-                <input type="submit" value="Zaloguj się"/>
+                <!--<input type="submit" value="Zaloguj się"/>-->
+                <div>
+         <button onclick="location.href='/login'" type="submit" style="margin: 15px" class="btn btn-primary">
+     Zaloguj się</button>
+    </div>
             </form>
         </div>
 

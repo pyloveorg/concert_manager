@@ -12,43 +12,6 @@
     </div>
   </div>
 
-        {%if new_concert%}
-
-        <p>Dodano nowe wydarzenie!</p>
-
-        <table style="width: 80%; height: 15em" border>
-
-    <tr>
-    <th>Id</th>
-    <th>Nazwa wykonawcy</th>
-    <th>Opis</th>
-    <th>Gatunek</th>
-    <th>Cena biletu kat 1 - płyta</th>
-        <th>Cena biletu kat 2 - trybuny</th>
-        <th>Cena biletu kat 3 - Golden Circle</th>
-        <th>Cena biletu kat 4 - VIP</th>
-        <th>Data wydarzenia</th>
-        <th>Lokalizacja</th>
-    </tr>
-    <tr>
-
-    <td>{{new_concert.concert_id}}</td>
-    <td>{{new_concert.band}}</td>
-    <td>{{new_concert.opis}}</td>
-    <td>{{new_concert.gatunek}}</td>
-    <td>{{new_concert.price_plyta_ticket}}</td>
-        <td>{{new_concert.price_trybuny_ticket}}</td>
-        <td>{{new_concert.price_gc_ticket}}</td>
-        <td>{{new_concert.price_vip_ticket}}</td>
-        <td>{{new_concert.date}}</td>
-        <td>{{new_concert.place}}</td>
-
-    </tr>
-
-        {%endif%}
-        </table>
-
-
     <form method="post">
     <form action="/concerts-add" method="post">
        <br>
@@ -57,8 +20,9 @@
         <input type="text" name="name" required>
         <br><br>Nazwa wykonawcy *
         <input type="text" name="band" required>
-        <br><br>Opis
-        <input type="text" name="opis">
+        <br><br>Opis wydarzenia<br>
+        <textarea name="opis" rows="5" cols="100"></textarea>
+        <br>
         <br><br>Gatunek *
         <input type="text" name="gatunek" required>
         <br><br>Cena biletu kat 1 - płyta
@@ -88,14 +52,22 @@
         <input type="number" name="nr_gc_ticket" value="0">
         <br><br>Sugerowana pula biletow VIP
         <input type="number" name="nr_vip_ticket" value="0">
+        <br><br> Dodaj plakat / zdjęcie wydarzenia:
+        <input type="image" name="plakat">
+
         <br><br>
-        <button type="submit">Dodaj wydarzenie</button>
-        </form>
+        <!--</form>-->
+        <!--<div>-->
+         <!--<button onclick="location.href='/concerts-add'" type="button" style="margin: 15px" class="btn btn-primary">-->
+     <!--Dodaj nowy koncert</button>-->
+    <!--</div>-->
+        <!--<input type="reset">-->
 
  <br><br>
 
-    <a href="/concerts">Home</a>
+    <a href="/">Home</a>
      </form>
 
+ <br><br>
 
 {% endblock %}
