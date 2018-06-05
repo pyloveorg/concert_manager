@@ -21,6 +21,7 @@ def db_start():
     show.name = "koncert ACDC"
     show.band = "ACDC"
     show.venue = "Spodek"
+    show.gatunek = "hard rock"
     show.nr_plyta_ticket = 30
     show.price_plyta_ticket = 90
     show.nr_trybuny_ticket = 20
@@ -30,7 +31,7 @@ def db_start():
     show.nr_vip_ticket = 5
     show.price_vip_ticket = 140
     show.opis = "Koncert jednego z najstarszych zespołów"
-    show.data = "2018, 6, 5"
+    show.data = "2018, 06, 05"
     show.godzina = "20:00"
     show.venue = "Zamek"
     show.picurl = "http://www.cdn.ug.edu.pl/wp-content/uploads/2017/01/koncert.jpg"
