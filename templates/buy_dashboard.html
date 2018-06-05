@@ -4,30 +4,33 @@
 
 {% block content %}
   <div class="row">
-    <div class="col-12">
-      <h3>Panel użytkownika</h3>
-        <p>Witaj, {{ current_user.username }}! :-)</p>
-  
+    <div class="col-12"> <br>
+      <h3>Twoje zakupione bilety</h3> <br>
+        <p>Witaj, {{ current_user.username }}! </p>
 
+
+   {%if ticket.count() > 0%}
 Dotychczas kupiłeś przez serwis Concert Manager:
 
         <br>
         <br>
 
  <ul>
-      
   {% for i in ticket %}
 
      <!--<button onclick="location.href='/ticket?id={{i.ticket_id}}'" type="button">-->
      <!--Bilety na koncert {{i.band}}</button>-->
      <br>
 
-     <li>   <a href="/ticket?id={{i.ticket_id}}">Bilety na koncert {{i.band}}</a> </li>
+     <li>   <a href="/ticket?id={{i.ticket_id}}">Bilety na koncert {{i.name}}</a> </li>
      <br>
-
-   {% endfor %}
+       {% endfor %}
+  {%else%}
+      Niestety, nie kupiłeś jeszcze żadnych biletów...
+         {% endif %}
    
  </ul>
+
     </div>
   </div>
 

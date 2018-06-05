@@ -5,6 +5,8 @@ from models import User, Ticket, Concert
 from flask import render_template, request, session, abort, url_for, redirect
 from flask_login import login_user, login_required, logout_user, current_user
 from functools import wraps
+from datetime import datetime, date
+import time
 import re
 
 
@@ -21,7 +23,6 @@ def requires_roles(*roles):
     return wrapper
 
 
-
 @loginManager.user_loader
 def load_user(user_id):
     loaded_user = User.query.filter_by(id=user_id).first()
@@ -33,11 +34,19 @@ def load_user(user_id):
 
 @app.route('/', methods=['GET', 'POST'])
 def info():
-    shows = Concert.query.all()
+    now = date.today()
+    shows = Concert.query.filter(Concert.data >= now).all()
+#    shows = Concert.query.all()
     shows.sort(key=lambda x: x.id, reverse=True)
     query = str(request.args.get('query'))
     query1 = query.title()
     return render_template('info.html', session=session, shows=shows, query=query, query1=query1)
+
+@app.route('/archive', methods=['GET', 'POST'])
+def archive():
+    now = date.today()
+    shows = Concert.query.filter(Concert.data < now)
+    return render_template('archiwum.html', shows=shows)
 
 @app.route('/login', methods=['GET'])
 def login():
@@ -90,9 +99,12 @@ def concerts_add():
         nr_trybuny_ticket = int(request.form['nr_trybuny_ticket'])
         nr_gc_ticket = int(request.form['nr_gc_ticket'])
         nr_vip_ticket = int(request.form['nr_vip_ticket'])
-        data = request.form['data']
+        rawdata = request.form['data']
+        rawtime = request.form['godzina']
+        data = datetime.strptime(rawdata, '%Y-%m-%d')
+        godzina = str(rawtime)
         venue = request.form['venue']
-
+        picurl = request.form['picurl']
         new_concert = Concert()
         new_concert.band = band
         new_concert.opis = opis
@@ -107,7 +119,9 @@ def concerts_add():
         new_concert.nr_gc_ticket = nr_gc_ticket
         new_concert.nr_vip_ticket = nr_vip_ticket
         new_concert.data = data
+        new_concert.godzina = godzina
         new_concert.venue = venue
+        new_concert.picurl = picurl
 
         db.session.add(new_concert)
         db.session.commit()
@@ -156,7 +170,7 @@ def buy_ticket():
 def confirm():
     show_id = request.args.get('id')
     koncert = Concert.query.get(show_id)
-    l_plyta = int(request.form["l_plyta"])
+    l_plyta = int(request.form["l_plyta"])  #ustawicwartosczero jesli nic nie przechodzi
     l_trybuny = int(request.form["l_trybuny"])
     l_gc = int(request.form["l_gc"])
     l_vip = int(request.form["l_vip"])
@@ -177,7 +191,7 @@ def confirm():
     new_ticket.name = koncert.name
     db.session.add(new_ticket)
     db.session.commit()
-    return render_template("confirm.html", suma = suma, koncert = koncert, kwota = kwota, show_id = show_id)
+    return render_template("confirm.html", suma = suma, l_plyta = l_plyta, koncert = koncert, kwota = kwota, show_id = show_id)
 
 
 #strona ze szczegółami konkretnego biletu, tylko dla zalogowanych
@@ -202,7 +216,8 @@ def dashboard():
 @app.route('/show/<int:id>', methods=['GET', 'POST'])
 def show(id):
     koncert = Concert.query.get(id)
-    return render_template('koncert.html', id = id, koncert = koncert)
+    now = date.today()
+    return render_template('koncert.html', koncert = koncert, now = now, id = id)
 
 
 @app.route('/register', methods=['GET'])

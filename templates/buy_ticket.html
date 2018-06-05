@@ -59,43 +59,63 @@ Data i miejsce koncertu: {{koncert.venue}}, {{koncert.data}}
 
 <div class="container">
   <form action="/buy_ticket/confirm?id={{show_id}}" method="POST">
+{% if plyta2 > 0 %}
     <div class="row">
       <div class="col-50">
         <label for="name">Wybierz ile chcesz kupić biletow na płytę,
-             każdy w cenie {{ "%.2f"|format(koncert.price_plyta_ticket) }} zł:</label>
+             każdy w cenie {{ "%.2f"|format(koncert.price_plyta_ticket) }} zł:<br>
+        Liczba dostępnych biletów: {{plyta2}}. </label>
       </div>
       <div class="col-50">
         <input type="number" id="name" name="l_plyta" min="0" max="{{plyta2}}" step="1" value="0" required>
       </div>
     </div>
+      {% else %}
+       <input type="hidden" id="name" name="l_plyta" value="0" >
+      {% endif %}
+{% if trybuny2 > 0 %}
     <div class="row">
       <div class="col-50">
         <label for="name">Wybierz ile chcesz kupić biletow na trybuny,
-            każdy w cenie {{ "%.2f"|format(koncert.price_trybuny_ticket) }} zł:</label>
+            każdy w cenie {{ "%.2f"|format(koncert.price_trybuny_ticket) }} zł:<br>
+        Liczba dostępnych biletów: {{trybuny2}}.</label>
       </div>
       <div class="col-50">
         <input type="number" id="name" name="l_trybuny" min="0" max="{{trybuny2}}" step="1" value="0" required>
       </div>
     </div>
+            {% else %}
+       <input type="hidden" id="name" name="l_trybuny" value="0" >
+      {% endif %}
+      {% if gc2 > 0 %}
           <div class="row">
       <div class="col-50">
         <label for="name">Wybierz ile chcesz kupić biletow na golden circle,
-            każdy w cenie {{ "%.2f"|format(koncert.price_gc_ticket) }} zł:</label>
+            każdy w cenie {{ "%.2f"|format(koncert.price_gc_ticket) }} zł:<br>
+        Liczba dostępnych biletów: {{gc2}} </label>
       </div>
       <div class="col-50">
         <input type="number" id="name" name="l_gc" min="0" max="{{gc2}}" step="1" value="0" required>
       </div>
     </div>
+            {% else%}
+       <input type="hidden" id="name" name="l_gc" value="0" >
+       {% endif %}
+      {% if vip2 > 0 %}
           <div class="row">
       <div class="col-50">
         <label for="name">Wybierz ile chcesz kupić biletow VIP,
-          każdy w cenie {{ "%.2f"|format(koncert.price_vip_ticket) }} zł:</label>
+          każdy w cenie {{ "%.2f"|format(koncert.price_vip_ticket) }} zł:<br>
+        Liczba dostępnych biletów: {{vip2}} </label>
       </div>
       <div class="col-50">
         <input type="number" id="name" name="l_vip" min="0" max="{{vip2}}" step="1" value="0" required>
       </div>
+                    {% else%}
+       <input type="hidden" id="name" name="l_vip" value="0" >
+                {% endif %}
               <div class="row">
-         <button onclick="location.href='/buy_ticket/confirm?id={{show_id}}'" type="submit" style="margin: 15px" class="btn btn-primary">
+         <button type="submit" style="border-radius:5px;margin-top:20px;padding: 12px;" class="btn btn-primary">
      Kontynuuj do kasy</button>
     </div>
             </div>
