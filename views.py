@@ -2,7 +2,7 @@
 # encoding: utf-8
 from main import app, db, loginManager
 from models import User, Ticket, Concert
-from flask import render_template, request, session, abort, url_for, redirect
+from flask import render_template, request, session, abort, url_for, redirect, flash
 from flask_login import login_user, login_required, logout_user, current_user
 from functools import wraps
 from datetime import datetime, date
@@ -37,16 +37,20 @@ def info():
     now = date.today()
     shows = Concert.query.filter(Concert.data >= now).all()
 #    shows = Concert.query.all()
-    shows.sort(key=lambda x: x.id, reverse=True)
+    shows.sort(key=lambda x: x.data, reverse=True)
     query = str(request.args.get('query'))
     query1 = query.title()
-    return render_template('info.html', session=session, shows=shows, query=query, query1=query1)
+    query2 = query.upper()
+    return render_template('info.html', session=session, shows=shows, query=query, query1=query1, query2=query2)
 
 @app.route('/archive', methods=['GET', 'POST'])
 def archive():
     now = date.today()
     shows = Concert.query.filter(Concert.data < now)
-    return render_template('archiwum.html', shows=shows)
+    query = str(request.args.get('query'))
+    query1 = query.title()
+    query2 = query.upper()
+    return render_template('archiwum.html', shows=shows, query=query, query1=query1, query2=query2)
 
 @app.route('/login', methods=['GET'])
 def login():
@@ -105,6 +109,7 @@ def concerts_add():
         godzina = str(rawtime)
         venue = request.form['venue']
         picurl = request.form['picurl']
+
         new_concert = Concert()
         new_concert.band = band
         new_concert.opis = opis
@@ -126,11 +131,64 @@ def concerts_add():
         db.session.add(new_concert)
         db.session.commit()
 
-        # db.session.delete(new_concert)
-        # db.session.commit()
         return render_template('dodano_koncert.html')
 
     return render_template('concert_add_remove.html', naglowek='Dodaj nowe wydarzenie')
+
+# strona do edytowania wydarzeń - tylko dla admina i zalogowanego organizatora
+
+@app.route("/concerts-edit/<int:id>", methods = ['GET', "POST"])
+@login_required
+@requires_roles("admin", "organizer")
+def concert_edit(id):
+    koncert = db.session.query(Concert).get(id)
+    new_koncert = db.session.query(Concert).get(id)
+
+    if request.method == 'POST':
+        band = request.form['band']
+        name = request.form['name']
+        opis = request.form['opis']
+        gatunek = str(request.form['gatunek'])
+        price_plyta_ticket = float(request.form['price_plyta_ticket'])
+        price_trybuny_ticket = float(request.form['price_trybuny_ticket'])
+        price_gc_ticket = float(request.form['price_gc_ticket'])
+        price_vip_ticket = float(request.form['price_vip_ticket'])
+        nr_plyta_ticket = int(request.form['nr_plyta_ticket'])
+        nr_trybuny_ticket = int(request.form['nr_trybuny_ticket'])
+        nr_gc_ticket = int(request.form['nr_gc_ticket'])
+        nr_vip_ticket = int(request.form['nr_vip_ticket'])
+        data = request.form['data']
+        godzina = request.form['godzina']
+        venue = request.form['venue']
+        picurl = request.form['picurl']
+
+        new_concert = Concert()
+        new_concert.band = band
+        new_concert.opis = opis
+        new_concert.name = name
+        new_concert.gatunek = gatunek
+        new_concert.price_plyta_ticket = price_plyta_ticket
+        new_concert.price_trybuny_ticket = price_trybuny_ticket
+        new_concert.price_gc_ticket = price_gc_ticket
+        new_concert.price_vip_ticket = price_vip_ticket
+        new_concert.nr_plyta_ticket = nr_plyta_ticket
+        new_concert.nr_trybuny_ticket = nr_trybuny_ticket
+        new_concert.nr_gc_ticket = nr_gc_ticket
+        new_concert.nr_vip_ticket = nr_vip_ticket
+        new_concert.data = data
+        new_concert.godzina = godzina
+        new_concert.venue = venue
+        new_concert.picurl = picurl
+
+        db.session.add(new_concert)
+        db.session.commit()
+        db.session.delete(koncert)
+        db.session.commit()
+
+        flash('Edytowałeś koncert!', 'success')
+        return redirect('/')
+
+    return render_template('concert-edit.html', id=id, koncert=koncert, new_koncert=new_koncert)
 
 #strona do usuwania koncertow - tylko dla admina
 @app.route("/concerts-delete/<int:id>", methods=['GET', 'POST'])
@@ -299,21 +357,92 @@ def register_confirm():
 
     return render_template("register-confirm.html", message=message)
 
-#wyszukiwanie zaawansowane
+
+# wyszukiwanie zaawansowane
+
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
+    shows = Concert.query.all()
     query = str(request.args.get('query'))
-    query1 = str(request.args.get('query1'))
-    query2 = str(request.args.get('query2'))
-    query3 = str(request.args.get('query3'))
-    return render_template('search.html', query=query, query1=query1, query2=query2, query3=query3)
+    query1 = query.title()
+    query2 = query.upper()
+    query3 = query.lower()
+    query4 = str(request.args.get('query4'))
+    query5 = str(request.args.get('query5'))
 
+    return render_template('search.html', session=session, shows=shows, query=query, query1=query1, query2=query2,
+                               query3=query3, query4=query4, query5=query5)
+
+# wyniki wyszukiwania
+
+# po nazwie zespołu
+@app.route('/results/band', methods=['GET', 'POST'])
+def results_b():
+    shows = Concert.query.all()
+    query = str(request.args.get('query'))
+    query1 = query.title()
+    query2 = query.upper()
+    return render_template('results_1.html', session=session, shows=shows, query=query, query1=query1, query2=query2)
+
+# po miejscu wydarzenia
+@app.route('/results/venue', methods=['GET', 'POST'])
+def results_v():
+    shows = Concert.query.all()
+    query = str(request.args.get('query'))
+    query1 = query.title()
+    return render_template('results_2.html', session=session, shows=shows, query=query, query1=query1)
+
+# po gatunku
+@app.route('/results/gatunek', methods=['GET', 'POST'])
+def results_g():
+    shows = Concert.query.all()
+    query = str(request.args.get('query'))
+    query3 = query.lower()
+    return render_template('results_3.html', session=session, shows=shows, query=query, query3=query3)
+
+# po dacie wydarzenia
+@app.route('/results/date', methods=['GET', 'POST'])
+def results():
+    shows = Concert.query.all()
+    year, month, day = map(int, request.args.get('query4').split("-"))
+    data_query4 = date(year, month, day)
+    year, month, day = map(int, request.args.get('query5').split("-"))
+    data_query5 = date(year, month, day)
+    return render_template('results.html', session=session, shows=shows, data_query4=data_query4,
+                           data_query5=data_query5)
+
+# regulamin
 
 @app.route('/regulamin', methods=['GET'])
 def regulamin():
     return render_template('regulamin.html')
 
-@app.route('/contact', methods=['GET'])
+# kalendarz
+
+@app.route('/calendar', methods=['GET'])
+def kalendarz():
+    return render_template('calendar.html')
+
+#kontakt
+
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
+    # if request.method == 'POST':
+    #     name = request.form['name']
+    #     email = request.form['email']
+    #     message = request.form['message']
+    #     odkogo = "biuro@79level.pl"
+    #     dokogo = "malgorzata.anna.baum@gmail.com"
+    #     tytul = "Formularz kontaktowy z Concert Manager"
+    #     wiadomosc = ""
+    #     wiadomosc = "Imie i nazwisko: {0}, Email: {1}, Wiadomość: {2}".format(name, email, message)
+    #     sukces = email(dokogo, tytul, wiadomosc, "Od: {0}".format(odkogo))
+    #     if sukces:
+    #         flash('Wiadomość wysłana!', 'success')
+    #     else:
+    #         flash('Coś poszło nie tak!', 'error')
+
+        # return render_template('contact.html', name=name, email=email, message=message, odkogo=odkogo, tytul=tytul,
+        #                    wiadomosc=wiadomosc, sukces=sukces)
     return render_template('contact.html')

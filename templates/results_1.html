@@ -1,0 +1,55 @@
+{% extends "_base.html" %}
+
+{% set page_id = 'results' %}
+
+{% block content %}
+<br>
+
+ <h3>Wyniki wyszukiwania:</h3>
+        <br>
+
+       {%for show in shows%}
+
+         {%if query in show.band%}
+        <dl>
+       <dt>Nazwa koncertu: <a href="/show/{{ show.id }}">{{ show.name }}</a></dt>
+           <br>
+       <dd>Zespół: {{ show.band}}</dd>
+       <dd>Gatunek: {{ show.gatunek }}</dd>
+       <dd>Data i godzina koncertu: {{show.data}}, g: {{show.godzina}}</dd>
+       <dd>Miejsce: {{show.venue}}</dd>
+       </dl>
+
+         {%elif query1 in show.band%}
+        <br>
+
+         <dl>
+       <dt>Nazwa koncertu: <a href="/show/{{ show.id }}">{{ show.name }}</a></dt>
+           <br>
+       <dd>Zespół: {{ show.band}}</dd>
+       <dd>Gatunek: {{ show.gatunek }}</dd>
+       <dd>Data i godzina koncertu: {{show.data}}, g.{{show.godzina}}</dd>
+       <dd>Miejsce: {{show.venue}}</dd>
+       </dl>
+
+        {%elif query2 in show.band%}
+        <br>
+
+         <dl>
+       <dt>Nazwa koncertu: <a href="/show/{{ show.id }}">{{ show.name }}</a></dt>
+           <br>
+       <dd>Zespół: {{ show.band}}</dd>
+       <dd>Gatunek: {{ show.gatunek }}</dd>
+       <dd>Data i godzina koncertu: {{show.data}}, g.{{show.godzina}}</dd>
+       <dd>Miejsce: {{show.venue}}</dd>
+       </dl>
+
+      {% endif %}
+        {%endfor%}
+
+        <br>
+        <br>
+
+    <a href="/search">Powrót do wyszukiwarki</a>
+
+  {% endblock %}
