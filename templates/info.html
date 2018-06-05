@@ -3,8 +3,11 @@
 {% set page_id = 'info' %}
 
 
-
 {% block content %}
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+</head>
+
 
 <br>
 <p style="font-size:30px;font-family:verdana;">Najlepsza strona z koncertami</p>
@@ -16,34 +19,68 @@
     </div>
       {% endif %}
 
-<form action="/" method="get">
-        Wyszukaj wydarzenie: <input type="search" name=query placeholder="Wyszukaj nazwę zespołu" size = "25"/>
-            <a href="/search"> Wyszukiwanie zaawansowane</a>
+<!--#wyszkuwiarka z lupką-->
+
+<fieldset>
+
+<form action="/" method="get" >
+
+    <div align="right" class="input-append">
+        <input type="search" name="query" placeholder="Wyszukaj po nazwie zespołu" size = "25"/>
+
+        <div style="font-size:3em; color:Black">
+         <button onclick="location.href='/'" type="button" style="margin: 15px" class="btn btn-primary">
+             <i class="fas fa-search"></i>
+            Szukaj</button>
+
+       </div>
+        </div>
+
         </form>
+</fieldset>
 
             {%for show in shows%}
-            {%if query1 in show.band%}
-
-           <br>
-            <br>
-
+            {%if query in show.band%}
 
        <dl>
        <dt>Nazwa koncertu: <a href="/show/{{ show.id }}">{{ show.name }}</a></dt>
            <br>
        <dd>Zespół: {{ show.band}}</dd>
        <dd>Gatunek: {{ show.gatunek }}</dd>
-       <dd>Data i godzina koncertu: {{show.data}}</dd>
+       <dd>Data i godzina koncertu: {{show.data}}, g.{{show.godzina}}</dd>
        <dd>Miejsce: {{show.venue}}</dd>
        </dl>
 
-            {% endif %}
+        {%elif query1 in show.band%}
+
+         <dl>
+       <dt>Nazwa koncertu: <a href="/show/{{ show.id }}">{{ show.name }}</a></dt>
+           <br>
+       <dd>Zespół: {{ show.band}}</dd>
+       <dd>Gatunek: {{ show.gatunek }}</dd>
+       <dd>Data i godzina koncertu: {{show.data}}, g.{{show.godzina}}</dd>
+       <dd>Miejsce: {{show.venue}}</dd>
+       </dl>
+
+        {%elif query2 in show.band%}
+
+         <dl>
+       <dt>Nazwa koncertu: <a href="/show/{{ show.id }}">{{ show.name }}</a></dt>
+           <br>
+       <dd>Zespół: {{ show.band}}</dd>
+       <dd>Gatunek: {{ show.gatunek }}</dd>
+       <dd>Data i godzina koncertu: {{show.data}}, g.{{show.godzina}}</dd>
+       <dd>Miejsce: {{show.venue}}</dd>
+       </dl>
+
+
+        {%endif%}
+
+
             {%endfor%}
 
-
         <br>
         <br>
-
 
 <div class="row">
       {% for show in shows %}
@@ -52,12 +89,16 @@
           <img class="card-img-top" src="{{show.picurl}}" alt="koncert" style="max-height:300px">
           <div class="card-body">
             <h5 class="card-title">{{ show.name }}</h5>
-            <p class="card-text">Zespół: {{ show.band }} <br>  data: <b>{{ show.data }} </b> godz: {{show.godzina}}<br>
+            <p class="card-text">Zespół: {{ show.band }} <br>  data: <b>{{ show.data }}, </b> godz: {{show.godzina}}<br>
                 Gdzie: {{show.venue}}</p>
             <a href="/show/{{ show.id }}" class="btn btn-primary">Zobacz szczegóły</a>
               {% if current_user.is_authenticated and current_user.admin == True %}
               <a href="/concerts-delete/{{show.id}}" class="btn btn-primary" onclick="return confirm('Czy na pewno chcesz skasować ten koncert?');"
       >Usuń ten koncert</a>
+              <br>
+              <br>
+              <a href="/concerts-edit/{{show.id}}" class="btn btn-primary" onclick="return confirm('Czy na pewno chcesz edytować ten koncert?');"
+      >Edytuj ten koncert</a>
                 {% endif %}
           </div>
         </div>
@@ -65,11 +106,11 @@
       {% endfor %}
   </div>
 
+<br> <h5><a href="/archive">Archiwum</a></h5>
+
+<br>
+<br>
 
 
-
-
-
-<br> <a href="/archive">Archiwum</a>
 
 {% endblock %}

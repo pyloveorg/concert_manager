@@ -4,28 +4,73 @@
 
 {% block content %}
 
-<h3>Wyszukiwanie zaawansowane</h3>
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+</head>
+
 <br>
-<br> <form action="/" method="get">
-        Wyszukaj wydarzenie: <input type="search" name=query placeholder="Wyszukaj nazwę zespołu" size = "25"/>
+<form action="/results/band" method="get">
+        <h3>Wyszukaj wydarzenie:</h3>
+        <br>
+        <li>Po nazwie zespołu:
+            <input type="search" name="query"  placeholder="Wpisz zapytanie" size = "25"/></li>
 
-        </form>
+        <div style="font-size:3em; color:Black">
+         <button onclick="location.href='/'" type="button" style="margin: 15px" class="btn btn-primary">
+             <i class="fas fa-search"></i>
+            Szukaj</button>
 
-            {%for show in shows%}
-            {%if query in show.band%}
+       </div>
+</form>
+ <br>
+
+<form action="/results/venue" method="get">
+
+        <li>Po miejscu wydarzenia:
+
+            <input type="search" name="query"  placeholder="Wpisz zapytanie" size = "25"/></li>
+        <div style="font-size:3em; color:Black">
+         <button onclick="location.href='/'" type="button" style="margin: 15px" class="btn btn-primary">
+             <i class="fas fa-search"></i>
+            Szukaj</button>
+
+       </div>
+</form>
+<br>
+
+<form action="/results/gatunek" method="get">
+    <li>Po gatunku:
+
+        <input type="search" name="query"  placeholder="Wpisz zapytanie" size = "25"/></li>
+        <div style="font-size:3em; color:Black">
+         <button onclick="location.href='/'" type="button" style="margin: 15px" class="btn btn-primary">
+             <i class="fas fa-search"></i>
+            Szukaj</button>
+
+       </div>
+</form>
+
+<br> <form action="/results/date" method="get">
+
+    <li>Po dacie wydarzenia:</li>
+        <br>
+
+        Zakres od: <input type="date" name="query4">
+        do: <input type="date" name="query5">
+        <br><br>
+
+        <button type="submit" style="margin: 15px" class="btn btn-primary"><i class="fas fa-search"></i> Szukaj</button>
+        <div style="font-size:3em; color:Black">
 
 
-       <dl>
-       <dt>Nazwa koncertu: <a href="/show/{{ show.id }}">{{ show.name }}</a></dt>
-           <br>
-       <dd>Zespół: {{ show.band}}</dd>
-       <dd>Gatunek: {{ show.gatunek }}</dd>
-       <dd>Data i godzina koncertu: {{show.data}}</dd>
-       <dd>Miejsce: {{show.venue}}</dd>
-       </dl>
+       </div>
 
-            {% endif %}
-            {%endfor%}
+    </form>
+<br>
+<br>
+<a href="/">Home</a>
 
 
-{% endblock %}
+  {% endblock %}
+
+
