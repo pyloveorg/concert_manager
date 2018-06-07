@@ -15,25 +15,18 @@
 <br>
 <br>
 
-        <!--<input type="hidden" name="tak">-->
-         <!--<div class="row">-->
-         <!--<button onclick="location.href='/buy_ticket/confirm?id={{show_id}}'" type="submit" style="margin: 15px" class="btn btn-primary">-->
-   <!--TAK</button>-->
-   <!--</div>-->
-        <!--<input type="hidden" name="nie">-->
-         <!--<div class="row">-->
-         <!--<button onclick="location.href='/buy_ticket/confirm?id={{show_id}}'" type="submit" style="margin: 15px" class="btn btn-primary">-->
-   <!--NIE</button>-->
-   <!--</div>-->
+        <input type="hidden" name="tak">
+         <div class="row">
+         <button onclick="location.href='/buy_ticket/confirm?id={{show_id}}'" type="submit" style="margin: 15px" class="btn btn-primary">
+   TAK</button>
+   </div>
+        <input type="hidden" name="nie">
+         <div class="row">
+         <button onclick="location.href='/buy_ticket/confirm?id={{show_id}}'" type="submit" style="margin: 15px" class="btn btn-primary">
+   NIE</button>
+   </div>
 
-    <form action="{{ url_for('concerts-mail') }}" method=post>
-        {{ form.hidden_tag() }}
-        {{ form.submit }}
-        {{ form.submit }}
-        {{ form.message.label }}
-        {{ form.message }}
-
-    </form>
+    
     <br>
     <br>
 
