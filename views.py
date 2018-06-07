@@ -44,7 +44,6 @@ def load_user(user_id):
 def info():
     now = date.today()
     shows = Concert.query.filter(Concert.data >= now).all()
-#    shows = Concert.query.all()
     shows.sort(key=lambda x: x.data, reverse=True)
     query = str(request.args.get('query'))
     query1 = query.title()
@@ -214,7 +213,7 @@ def concerts_delete(id):
     koncert = db.session.query(Concert).get(id)
     db.session.delete(koncert)
     db.session.commit()
-    return render_template("concert-delete.html", id = id)
+    return render_template("concert-delete_new.html", id = id)
 
 
 #strona do kupowania biletow - tylko dla zalogowanych
@@ -296,7 +295,7 @@ def show(id):
 
 @app.route('/register', methods=['GET'])
 def register():
-    return render_template('register.html')
+    return render_template('register_new.html')
 
 
 @app.route('/register-confirm', methods=['POST'])
@@ -380,6 +379,7 @@ def register_confirm():
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     shows = Concert.query.all()
+    shows.sort(key=lambda x: x.data, reverse=True)
     query = str(request.args.get('query'))
     query1 = query.title()
     query2 = query.upper()
@@ -396,6 +396,7 @@ def search():
 @app.route('/results/band', methods=['GET', 'POST'])
 def results_b():
     shows = Concert.query.all()
+    shows.sort(key=lambda x: x.data, reverse=True)
     query = str(request.args.get('query'))
     query1 = query.title()
     query2 = query.upper()
@@ -405,6 +406,7 @@ def results_b():
 @app.route('/results/venue', methods=['GET', 'POST'])
 def results_v():
     shows = Concert.query.all()
+    shows.sort(key=lambda x: x.data, reverse=True)
     query = str(request.args.get('query'))
     query1 = query.title()
     return render_template('results_2.html', session=session, shows=shows, query=query, query1=query1)
@@ -413,6 +415,7 @@ def results_v():
 @app.route('/results/gatunek', methods=['GET', 'POST'])
 def results_g():
     shows = Concert.query.all()
+    shows.sort(key=lambda x: x.data, reverse=True)
     query = str(request.args.get('query'))
     query3 = query.lower()
     return render_template('results_3.html', session=session, shows=shows, query=query, query3=query3)
@@ -421,6 +424,7 @@ def results_g():
 @app.route('/results/date', methods=['GET', 'POST'])
 def results():
     shows = Concert.query.all()
+    shows.sort(key=lambda x: x.data, reverse=True)
     year, month, day = map(int, request.args.get('query4').split("-"))
     data_query4 = date(year, month, day)
     year, month, day = map(int, request.args.get('query5').split("-"))
