@@ -6,8 +6,16 @@ from flask import render_template, request, session, abort, url_for, redirect, f
 from flask_login import login_user, login_required, logout_user, current_user
 from functools import wraps
 from datetime import datetime, date
+from forms import ContactForm, SendMail
+from flask_mail import Message, Mail
 import time
 import re
+
+
+mail = Mail()
+app.secret_key = 'development key'
+
+mail.init_app(app)
 
 
 # stworzenie roli do sprawdzania autoryzacji
@@ -124,6 +132,10 @@ def concerts_add():
         new_concert.nr_gc_ticket = nr_gc_ticket
         new_concert.nr_vip_ticket = nr_vip_ticket
         new_concert.data = data
+        now = datetime.today()
+        if new_concert.data < now:
+            flash("Data koncertu jest datą przeszłą", "error")
+            return redirect('/concerts-add')
         new_concert.godzina = godzina
         new_concert.venue = venue
         new_concert.picurl = picurl
@@ -133,7 +145,9 @@ def concerts_add():
 
         return render_template('dodano_koncert.html')
 
+
     return render_template('concert_add_remove.html', naglowek='Dodaj nowe wydarzenie')
+
 
 # strona do edytowania wydarzeń - tylko dla admina i zalogowanego organizatora
 
@@ -157,8 +171,10 @@ def concert_edit(id):
         nr_trybuny_ticket = int(request.form['nr_trybuny_ticket'])
         nr_gc_ticket = int(request.form['nr_gc_ticket'])
         nr_vip_ticket = int(request.form['nr_vip_ticket'])
-        data = request.form['data']
-        godzina = request.form['godzina']
+        rawdata = request.form['data']
+        rawtime = request.form['godzina']
+        data = datetime.strptime(rawdata, '%Y-%m-%d')
+        godzina = str(rawtime)
         venue = request.form['venue']
         picurl = request.form['picurl']
 
@@ -268,7 +284,7 @@ def ticket():
 def dashboard():
     user_login = current_user.username
     ticket = Ticket.query.filter_by(user_login=user_login).order_by(Ticket.ticket_id.desc())
-    return render_template("buy_dashboard.html", ticket = ticket)
+    return render_template("buy_dashboard_new.html", ticket = ticket)
 
 
 @app.route('/show/<int:id>', methods=['GET', 'POST'])
@@ -424,25 +440,25 @@ def regulamin():
 def kalendarz():
     return render_template('calendar.html')
 
-#kontakt
+#formularz kontaktowy
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
-    # if request.method == 'POST':
-    #     name = request.form['name']
-    #     email = request.form['email']
-    #     message = request.form['message']
-    #     odkogo = "biuro@79level.pl"
-    #     dokogo = "malgorzata.anna.baum@gmail.com"
-    #     tytul = "Formularz kontaktowy z Concert Manager"
-    #     wiadomosc = ""
-    #     wiadomosc = "Imie i nazwisko: {0}, Email: {1}, Wiadomość: {2}".format(name, email, message)
-    #     sukces = email(dokogo, tytul, wiadomosc, "Od: {0}".format(odkogo))
-    #     if sukces:
-    #         flash('Wiadomość wysłana!', 'success')
-    #     else:
-    #         flash('Coś poszło nie tak!', 'error')
+    form = ContactForm()
 
-        # return render_template('contact.html', name=name, email=email, message=message, odkogo=odkogo, tytul=tytul,
-        #                    wiadomosc=wiadomosc, sukces=sukces)
-    return render_template('contact.html')
+    if request.method == 'POST':
+        if form.validate() == False:
+            flash('Wszystkie pola są wymagane.')
+            return render_template('contact.html', form=form)
+        else:
+            msg = Message(form.subject.data, sender=form.name.data, recipients=['concert.manager.pylove@gmail.com'])
+            msg.body = """
+      From: %s <%s>
+      %s
+      """ % (form.name.data, form.email.data, form.message.data)
+            mail.send(msg)
+
+            return render_template('contact.html', success=True)
+
+    elif request.method == 'GET':
+        return render_template('contact.html', form=form)
