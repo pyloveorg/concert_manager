@@ -3,6 +3,9 @@
 {% set page_id = 'dashboard' %}
 
 {% block content %}
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+</head>
 <br>
       <h3>Twoje zakupione bilety</h3> <br>
         <p>Witaj, {{ current_user.username }}! </p>
@@ -21,7 +24,7 @@ Dotychczas kupiłeś przez serwis Concert Manager:
      <!--Bilety na koncert {{i.band}}</button>-->
      <br>
 
-     <li>   <a href="/ticket?id={{i.ticket_id}}">Bilety na koncert {{i.name}}</a> </li>
+     <li>   <a href="/ticket?id={{i.ticket_id}}"><i class="fas fa-ticket-alt"></i> Bilety na koncert {{i.name}}</a> </li>
      <br>
        {% endfor %}
   {%else%}
@@ -30,7 +33,8 @@ Dotychczas kupiłeś przez serwis Concert Manager:
 
  </ul>
 
-    </div>
-  </div>
+<h5><a href="/"><i class="fas fa-home">  Home</i></a></h5>
+
+
 
 {% endblock %}

@@ -12,7 +12,15 @@
 
 
 <br>
-<p style="font-size:30px;font-family:verdana;">Najlepsza strona z koncertami</p>
+<p style="font-size:30px;font-family:verdana;">Concert Manager - Najlepsza strona z koncertami</p>
+
+<i>Szukasz koncertu w Twoim mieście?<br>
+Nie chcesz przegapić koncertu Twojego ulubionego zespołu?<br>
+Organizujesz wydarzenie i chcesz poinformować o tym innych?<br>
+<br>
+Ta strona jest dla Ciebie!<br>
+    Zapraszamy!</i>
+<br><br>
 
       {% if current_user.is_authenticated and current_user.usertype!="participator" %}
     <div>
@@ -84,6 +92,9 @@
         <br>
         <br>
 
+<h4><center>Przegląd aktualnych koncertów:</center></h4>
+<br> <br>
+
 <div class="row">
       {% for show in shows %}
       <div class="col-sm-4">
@@ -108,7 +119,7 @@
       {% endfor %}
   </div>
 
-<br> <h5><a href="/archive">Archiwum</a></h5>
+<br> <h5><a href="/archive"><i class="fas fa-book">  Archiwum</i></a></h5>
 
 <br>
 <br>
