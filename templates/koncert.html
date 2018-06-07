@@ -19,7 +19,8 @@ div.a {
 
     <br>{{ koncert.opis }}<br><br>
 
-    <p><b>Data wydarzenia: </b>{{koncert.data}} <br> <b>Godzina wydarzenia: </b>{{koncert.godzina}}</p>
+    <p><b>Data wydarzenia: </b>{{koncert.data}} <br>
+        <b>Godzina wydarzenia: </b>{{koncert.godzina}}</p>
         <p><b>Miejsce wydarzenia:</b> {{koncert.venue}}
             {%if koncert.venue == "Poznań Zamek"%}
             <a href="https://goo.gl/maps/yMxREW5p11E2" target="_blank">mapa</a>
@@ -34,6 +35,7 @@ div.a {
             <input type="hidden" name="sitesearch" value="http://www.google.pl/maps" />
             </form>
             {%endif%}
+
 
         <br>
         <br>
@@ -56,13 +58,17 @@ div.a {
           {% endif %}
     </div>
      <div class="col-6 b">
- <img class="img-responsive" src="{{koncert.picurl}}"" alt="koncert">
+         <br>
+ <img class="img-responsive" src="{{koncert.picurl}}" alt="koncert" width="85%" height="85%">
      </div>
-  </div>
+
 
 
 <br><br>
     <a href="/">Powrót</a>
+
+<br>
+<br>
 
 
 {% endblock %}

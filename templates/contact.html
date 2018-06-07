@@ -3,44 +3,72 @@
 {% set page_id = 'contact' %}
 
 {% block content %}
-
-
-<!--#formularz kontaktowy-->
 <head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Formularz Kontaktowy</title>
-<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/my_style.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/main.css') }}"/>
 </head>
 
-<div id="formularz">
-<form action="/contact" method="post">
+<!--#formularz kontaktowy-->
 
-    <label>Imie i nazwisko</label>
-    <input name="name" placeholder="Jan kowalski">
+ <h2>Formularz kontaktowy</h2>
 
-    <label>Email</label>
-    <input name="email" type="email" placeholder="biuro@79level.pl">
+     {% if success %}
+    <p>Dziękujemy za wiadomość. Odpowiemy najszybciej, jak to tylko możliwe.</p>
 
-    <label>Wiadomość</label>
-    <textarea name="message" placeholder="Napisz tu wiadomość"></textarea>
+     {% else %}
 
-    <input id="submit" name="submit" type="submit" value="Wyślij">
+    {% for message in form.name.errors %}
+  <div class="flash">{{ message }}</div>
+    {% endfor %}
 
-</form>
-</div>
+    {% for message in form.email.errors %}
+  <div class="flash">{{ message }}</div>
+    {% endfor %}
+
+    {% for message in form.subject.errors %}
+  <div class="flash">{{ message }}</div>
+    {% endfor %}
+
+    {% for message in form.message.errors %}
+  <div class="flash">{{ message }}</div>
+    {% endfor %}
 
 
-<h3>Kontakt:</h3><br>
+  <form action="{{ url_for('contact') }}" method=post>
+    {{ form.hidden_tag() }}
+
+    {{ form.name.label }}
+    {{ form.name }}
+
+    {{ form.email.label }}
+    {{ form.email }}
+
+    {{ form.subject.label }}
+    {{ form.subject }}
+
+    {{ form.message.label }}
+    {{ form.message }}
+
+    {{ form.submit }}
+
+   </form>
+       {% endif %}
+
+<br>
+<br>
+
+<h3>Bezpośredni kontakt z autorami serwisu:</h3><br>
 <ul>
-  <h5> <li>Dagna: tel. 999-111-333 <a href=mailto:daga@gmail.pl"><img src="https://articles-images.sftcdn.net/wp-content/uploads/sites/10/2013/04/Gmail-Logo1-300x300.png" alt="Wyślij maila" border="0" width="50" height="50"/></a></h5></li><br>
-    <h5><li>Gosia:  tel. 111-222-555 <a href=mailto:gosia@gmail.pl"><img src="https://articles-images.sftcdn.net/wp-content/uploads/sites/10/2013/04/Gmail-Logo1-300x300.png" alt="Wyślij maila" border="0" width="50" height="50"/></a></h5></li>
-
+  <h5> <li>Dagna: tel. 999-111-333 <a href=mailto:daga@gmail.pl"><i class="fas fa-envelope"></i></a></h5></li><br>
+    <h5><li>Gosia:  tel. 111-222-555 <a href=mailto:gosia@gmail.pl"><i class="fas fa-envelope"></i></a></h5></li>
 </ul>
 
           <!--<img class="card-img-top" src="https://articles-images.sftcdn.net/wp-content/uploads/sites/10/2013/04/Gmail-Logo1-300x300.png" alt="koncert">-->
 <br><br>
 
-    <a href="/">Home</a>
+    <a href="/"><i class="fas fa-home">Home</i></a>
 
 <br><br>
 

@@ -6,6 +6,8 @@
 {% block content %}
 <head>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/main.css') }}"/>
+
 </head>
 
 
@@ -86,7 +88,7 @@
       {% for show in shows %}
       <div class="col-sm-4">
         <div class="card">
-          <img class="card-img-top" src="{{show.picurl}}" alt="koncert" style="max-height:300px">
+          <img class="foto" src="{{show.picurl}}" alt="koncert" style="max-height:300px">
           <div class="card-body">
             <h5 class="card-title">{{ show.name }}</h5>
             <p class="card-text">Zespół: {{ show.band }} <br>  data: <b>{{ show.data }}, </b> godz: {{show.godzina}}<br>
