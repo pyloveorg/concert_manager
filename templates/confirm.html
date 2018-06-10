@@ -3,8 +3,12 @@
 {% set page_id = 'info' %}
 
 {% block content %}
-  <div class="row">
-    <div class="col-12">
+
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+</head>
+
       <h3>Potwierdzenie</h3>
 
 {% if suma > 0 %}
@@ -15,10 +19,9 @@
 {% endif %}
 
 <br><br>
-        <a href="/">Home</a>
+<h5><a href="/"><i class="fas fa-home">Home</i></a></h5>
 
 
 
-</div>
- </div>
+
 {% endblock %}

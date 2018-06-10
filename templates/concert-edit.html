@@ -3,6 +3,13 @@
 {% set page_id = 'concert-edit' %}
 
 {% block content %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/main.css') }}"/>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+</head>
+
+
   <div class="row">
     <div class="col-12">
       <h3>{{ naglowek }}</h3> <br>
@@ -58,7 +65,7 @@
         <br><br>Sugerowana pula biletow VIP
         <input type="number" name="nr_vip_ticket" value="{{koncert.nr_vip_ticket}}">
         <br><br>Zmień url:
-        <input type="url" name="picurl">
+        <input type="url" name="picurl" class = "foto">
 
         <br>
         <br>
@@ -71,7 +78,7 @@
 
  <br><br>
 
-    <a href="/">Home</a>
+    <h5><a href="/"><i class="fas fa-home">  Home</i></a></h5>
      </form>
 
  <br><br>

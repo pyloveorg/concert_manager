@@ -6,8 +6,16 @@ from flask import render_template, request, session, abort, url_for, redirect, f
 from flask_login import login_user, login_required, logout_user, current_user
 from functools import wraps
 from datetime import datetime, date
+from forms import ContactForm, SendMail
+from flask_mail import Message, Mail
 import time
 import re
+
+
+mail = Mail()
+app.secret_key = 'development key'
+
+mail.init_app(app)
 
 
 # stworzenie roli do sprawdzania autoryzacji
@@ -36,7 +44,6 @@ def load_user(user_id):
 def info():
     now = date.today()
     shows = Concert.query.filter(Concert.data >= now).all()
-#    shows = Concert.query.all()
     shows.sort(key=lambda x: x.data, reverse=True)
     query = str(request.args.get('query'))
     query1 = query.title()
@@ -124,6 +131,10 @@ def concerts_add():
         new_concert.nr_gc_ticket = nr_gc_ticket
         new_concert.nr_vip_ticket = nr_vip_ticket
         new_concert.data = data
+        now = datetime.today()
+        if new_concert.data < now:
+            flash("Data koncertu jest datą przeszłą", "error")
+            return redirect('/concerts-add')
         new_concert.godzina = godzina
         new_concert.venue = venue
         new_concert.picurl = picurl
@@ -133,7 +144,9 @@ def concerts_add():
 
         return render_template('dodano_koncert.html')
 
+
     return render_template('concert_add_remove.html', naglowek='Dodaj nowe wydarzenie')
+
 
 # strona do edytowania wydarzeń - tylko dla admina i zalogowanego organizatora
 
@@ -157,8 +170,10 @@ def concert_edit(id):
         nr_trybuny_ticket = int(request.form['nr_trybuny_ticket'])
         nr_gc_ticket = int(request.form['nr_gc_ticket'])
         nr_vip_ticket = int(request.form['nr_vip_ticket'])
-        data = request.form['data']
-        godzina = request.form['godzina']
+        rawdata = request.form['data']
+        rawtime = request.form['godzina']
+        data = datetime.strptime(rawdata, '%Y-%m-%d')
+        godzina = str(rawtime)
         venue = request.form['venue']
         picurl = request.form['picurl']
 
@@ -198,7 +213,7 @@ def concerts_delete(id):
     koncert = db.session.query(Concert).get(id)
     db.session.delete(koncert)
     db.session.commit()
-    return render_template("concert-delete.html", id = id)
+    return render_template("concert-delete_new.html", id = id)
 
 
 #strona do kupowania biletow - tylko dla zalogowanych
@@ -268,7 +283,7 @@ def ticket():
 def dashboard():
     user_login = current_user.username
     ticket = Ticket.query.filter_by(user_login=user_login).order_by(Ticket.ticket_id.desc())
-    return render_template("buy_dashboard.html", ticket = ticket)
+    return render_template("buy_dashboard_new.html", ticket = ticket)
 
 
 @app.route('/show/<int:id>', methods=['GET', 'POST'])
@@ -280,7 +295,7 @@ def show(id):
 
 @app.route('/register', methods=['GET'])
 def register():
-    return render_template('register.html')
+    return render_template('register_new.html')
 
 
 @app.route('/register-confirm', methods=['POST'])
@@ -364,6 +379,7 @@ def register_confirm():
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     shows = Concert.query.all()
+    shows.sort(key=lambda x: x.data, reverse=True)
     query = str(request.args.get('query'))
     query1 = query.title()
     query2 = query.upper()
@@ -380,6 +396,7 @@ def search():
 @app.route('/results/band', methods=['GET', 'POST'])
 def results_b():
     shows = Concert.query.all()
+    shows.sort(key=lambda x: x.data, reverse=True)
     query = str(request.args.get('query'))
     query1 = query.title()
     query2 = query.upper()
@@ -389,6 +406,7 @@ def results_b():
 @app.route('/results/venue', methods=['GET', 'POST'])
 def results_v():
     shows = Concert.query.all()
+    shows.sort(key=lambda x: x.data, reverse=True)
     query = str(request.args.get('query'))
     query1 = query.title()
     return render_template('results_2.html', session=session, shows=shows, query=query, query1=query1)
@@ -397,6 +415,7 @@ def results_v():
 @app.route('/results/gatunek', methods=['GET', 'POST'])
 def results_g():
     shows = Concert.query.all()
+    shows.sort(key=lambda x: x.data, reverse=True)
     query = str(request.args.get('query'))
     query3 = query.lower()
     return render_template('results_3.html', session=session, shows=shows, query=query, query3=query3)
@@ -405,6 +424,7 @@ def results_g():
 @app.route('/results/date', methods=['GET', 'POST'])
 def results():
     shows = Concert.query.all()
+    shows.sort(key=lambda x: x.data, reverse=True)
     year, month, day = map(int, request.args.get('query4').split("-"))
     data_query4 = date(year, month, day)
     year, month, day = map(int, request.args.get('query5').split("-"))
@@ -424,25 +444,25 @@ def regulamin():
 def kalendarz():
     return render_template('calendar.html')
 
-#kontakt
+#formularz kontaktowy
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
-    # if request.method == 'POST':
-    #     name = request.form['name']
-    #     email = request.form['email']
-    #     message = request.form['message']
-    #     odkogo = "biuro@79level.pl"
-    #     dokogo = "malgorzata.anna.baum@gmail.com"
-    #     tytul = "Formularz kontaktowy z Concert Manager"
-    #     wiadomosc = ""
-    #     wiadomosc = "Imie i nazwisko: {0}, Email: {1}, Wiadomość: {2}".format(name, email, message)
-    #     sukces = email(dokogo, tytul, wiadomosc, "Od: {0}".format(odkogo))
-    #     if sukces:
-    #         flash('Wiadomość wysłana!', 'success')
-    #     else:
-    #         flash('Coś poszło nie tak!', 'error')
+    form = ContactForm()
 
-        # return render_template('contact.html', name=name, email=email, message=message, odkogo=odkogo, tytul=tytul,
-        #                    wiadomosc=wiadomosc, sukces=sukces)
-    return render_template('contact.html')
+    if request.method == 'POST':
+        if form.validate() == False:
+            flash('Wszystkie pola są wymagane.')
+            return render_template('contact.html', form=form)
+        else:
+            msg = Message(form.subject.data, sender=form.name.data, recipients=['concert.manager.pylove@gmail.com'])
+            msg.body = """
+      From: %s <%s>
+      %s
+      """ % (form.name.data, form.email.data, form.message.data)
+            mail.send(msg)
+
+            return render_template('contact.html', success=True)
+
+    elif request.method == 'GET':
+        return render_template('contact.html', form=form)
