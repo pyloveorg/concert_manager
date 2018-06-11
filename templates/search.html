@@ -16,39 +16,42 @@
         <li>Po nazwie zespołu:
             <input type="search" name="query"  placeholder="Wpisz zapytanie" size = "25"/></li>
 
-        <div style="font-size:3em; color:Black">
-         <button onclick="location.href='/'" type="button" style="margin: 15px" class="btn btn-primary">
-             <i class="fas fa-search"></i>
-            Szukaj</button>
 
-       </div>
+         <button type="submit" style="border-radius:5px;margin-top:20px;padding: 12px;" class="btn btn-primary"><i class="fas fa-search"></i>
+     Szukaj</button>
+
+
 </form>
  <br>
-
 <form action="/results/venue" method="get">
 
         <li>Po miejscu wydarzenia:
 
             <input type="search" name="query"  placeholder="Wpisz zapytanie" size = "25"/></li>
-        <div style="font-size:3em; color:Black">
-         <button onclick="location.href='/'" type="button" style="margin: 15px" class="btn btn-primary">
-             <i class="fas fa-search"></i>
-            Szukaj</button>
 
-       </div>
+         <button type="submit" style="border-radius:5px;margin-top:20px;padding: 12px;" class="btn btn-primary"><i class="fas fa-search"></i>
+     Szukaj</button>
+
+
 </form>
 <br>
 
 <form action="/results/gatunek" method="get">
     <li>Po gatunku:
 
-        <input type="search" name="query"  placeholder="Wpisz zapytanie" size = "25"/></li>
-        <div style="font-size:3em; color:Black">
-         <button onclick="location.href='/'" type="button" style="margin: 15px" class="btn btn-primary">
-             <i class="fas fa-search"></i>
-            Szukaj</button>
+        <!--<input type="search" name="query"  placeholder="Wpisz zapytanie" size = "25"></li>-->
+        <select name="query">
+            <option>folk</option>
+            <option>hip-hop</option>
+            <option>pisenka dziecięca</option>
+	        <option>rock</option>
+            <option>inny</option>
+        </select></li>
 
-       </div>
+         <button type="submit" style="border-radius:5px;margin-top:20px;padding: 12px;" class="btn btn-primary"><i class="fas fa-search"></i>
+     Szukaj</button>
+
+
 </form>
 
 <br> <form action="/results/date" method="get">
@@ -60,11 +63,11 @@
         do: <input type="date" name="query5">
         <br><br>
 
-        <button type="submit" style="margin: 15px" class="btn btn-primary"><i class="fas fa-search"></i> Szukaj</button>
-        <div style="font-size:3em; color:Black">
+        <button type="submit" style="border-radius:5px;margin-top:20px;padding: 12px;" class="btn btn-primary"><i class="fas fa-search"></i>
+     Szukaj</button>
 
 
-       </div>
+
 
     </form>
 <br>

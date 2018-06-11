@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 
 </head>
+<br>
 
-      <h3>Potwierdzenie</h3>
+      <p style="font-size:30px;font-family:verdana;">Potwierdzenie</p>
 
 {% if suma > 0 %}
-    Wybrałeś liczbę biletów: {{ suma }} <br> o łącznej wartości {{ kwota }} zlotych <br>na koncert {{koncert.band}} <br> data i godzina koncertu: {{koncert.data}}
+    Wybrałeś liczbę biletów: {{ suma }} <br> o łącznej wartości {{ kwota }} zlotych <br>na koncert {{koncert.band}} <br> data i godzina koncertu: {{koncert.data}}, g: {{koncert.godzina}},
         (numer koncertu: {{show_id}})
 {% else %}
     Nie wybrałeś żadnego biletu!

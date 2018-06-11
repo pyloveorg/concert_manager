@@ -43,19 +43,23 @@ label {
 }
 </style>
 
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+
 
   <div class="row">
     <div class="col-12">
-      <h3 style="font-size:30px;font-family:verdana;">Kup bilet</h3>
+      <p style="font-size:30px;font-family:verdana;">Kup bilet</p>
 
 <br>
 Chcesz kupić bilet na koncert: {{koncert.band}}<br>
-Data i miejsce koncertu: {{koncert.venue}}, {{koncert.data}}
+Data i miejsce koncertu: {{koncert.data}}, {{koncert.godzina}}, {{koncert.venue}}
 <br>
 <br>
     </div>
   </div>
 
+<div class="row">
 
 <div class="container">
   <form action="/buy_ticket/confirm?id={{show_id}}" method="POST">
@@ -124,9 +128,12 @@ Data i miejsce koncertu: {{koncert.venue}}, {{koncert.data}}
 
 
 <br>
-    <a href="/show/{{show_id}}">Powrót do strony koncertu</a> <br>
-    <a href="/">Powrót do strony głównej</a>
+    <h5><a href="/show/{{show_id}}">Powrót do strony koncertu</a> <br><br></h5>
+     <div>
+         <h5><a href="/"><i class="fas fa-home">  Home</i></a></h5>
+    </div>
 
+</div>
 
 {% endblock %}
 
