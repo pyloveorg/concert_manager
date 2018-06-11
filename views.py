@@ -133,7 +133,7 @@ def concerts_add():
         new_concert.data = data
         now = datetime.today()
         if new_concert.data < now:
-            flash("Data koncertu jest datą przeszłą", "error")
+            flash("Data koncertu jest datą przeszłą! Cofnij się, aby wybrać właściwą datę.", "error")
             return redirect('/concerts-add')
         new_concert.godzina = godzina
         new_concert.venue = venue
@@ -142,10 +142,21 @@ def concerts_add():
         db.session.add(new_concert)
         db.session.commit()
 
-        return render_template('dodano_koncert.html')
-
+        return redirect("/concerts-add/confirmation")
 
     return render_template('concert_add_remove.html', naglowek='Dodaj nowe wydarzenie')
+
+
+@app.route("/concerts-add/confirmation", methods=['GET', 'POST'])
+@login_required
+@requires_roles("admin", "organizer")
+def concerts_confirm():
+    if request.method == 'POST':
+        tak = request.form["tak"]
+        flash("Wiadomość email została wysłana!", "success")
+        return render_template('dodano_koncert.html', tak=tak)
+
+    return render_template('dodano_koncert.html')
 
 
 # strona do edytowania wydarzeń - tylko dla admina i zalogowanego organizatora
@@ -386,7 +397,6 @@ def search():
     query3 = query.lower()
     query4 = str(request.args.get('query4'))
     query5 = str(request.args.get('query5'))
-
     return render_template('search.html', session=session, shows=shows, query=query, query1=query1, query2=query2,
                                query3=query3, query4=query4, query5=query5)
 
@@ -400,6 +410,7 @@ def results_b():
     query = str(request.args.get('query'))
     query1 = query.title()
     query2 = query.upper()
+
     return render_template('results_1.html', session=session, shows=shows, query=query, query1=query1, query2=query2)
 
 # po miejscu wydarzenia
