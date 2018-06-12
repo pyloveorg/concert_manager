@@ -80,6 +80,7 @@ def login_confirm():
             # tutaj trzeba już dokonać operacji logowania
             db.session.commit()
             login_user(existing_user)
+            flash('Zalogowałeś się pomyślnie')
             return redirect("/")
 
     return render_template("login-failed.html", message=message)
