@@ -20,7 +20,6 @@
         <br>
 
         {% if current_user.username==ticket.user_login %}
-        Ilość kupionych biletów: {{ticket.ticket_id}} <br>
         <!--login kupującego: {{ ticket.user_login }} <br>-->
         <!--numer koncertu: {{ticket.show_id}} <br>-->
         {% if ticket.nr_plyta_ticket>0 %}Ilość biletów na płytę: {{  ticket.nr_plyta_ticket }} <br>
