@@ -13,7 +13,8 @@
 
   <div class="row">
     <div class="col-12">
-      <h3>{{ naglowek }}</h3> <br>
+        <br>
+      <p style="font-size:30px;font-family:verdana;">{{ naglowek }}</p> <br>
         {% if current_user.is_authenticated %}
         <h4>{{ current_user.username }}, wypełnij pola poniżej:</h4>
         {%endif%}
@@ -32,7 +33,13 @@
         <textarea name="opis" rows="5" cols="100"></textarea>
         <br>
         <br><br>Gatunek *
-        <input type="text" name="gatunek" required>
+        <select name="gatunek" required>
+            <option>folk</option>
+            <option>hip-hop</option>
+            <option>pisenka dziecięca</option>
+	        <option>rock</option>
+            <option>inny</option>
+            </select>
         <br><br>Cena biletu kat 1 - płyta
         <input type="number" name="price_plyta_ticket" value="0"> PLN
         <br><br>Cena biletu kat 2 - trybuny
@@ -48,12 +55,12 @@
         <input type="time" name="godzina" required>
         <br><br>Lokalizacja *
         <select name="venue" required>
-            <option>Poznań Arena</option>
+            <option selected="selected">Poznań Arena</option>
             <option>Poznań Zamek</option>
-            <option>Inna lokalizacja</option>
-	        <option selected="selected">Warszawa Torwar<option>
+            <option>Warszawa Torwar</option>
+	        <option>Inna lokalizacja</option>
             </select>
-        <input type="text" name="venue">
+
         <br><br>Pula biletow na płytę
         <input type="number" name="nr_plyta_ticket" value="0">
         <br><br>Sugerowana pula biletow na trybuny
@@ -64,6 +71,7 @@
         <input type="number" name="nr_vip_ticket" value="0">
         <br><br> Dodaj plakat / zdjęcie wydarzenia w formie url:
         <input type="url" class = "foto" name="picurl" value="http://www.cdn.ug.edu.pl/wp-content/uploads/2017/01/koncert.jpg">
+
 
         <br><br>
            <div class="row">

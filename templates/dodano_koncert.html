@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/main.css') }}"/>
 </head>
-
+<br>
         <p>Dzięki, {{ current_user.username }}! :-)
         Dodaliśmy nowy koncert!
         </p>
@@ -14,17 +14,19 @@
         Czy chcesz wysłać email do wszystkich użytkowników z informacją o nowym koncercie?
 <br>
 <br>
-
+<form method="post">
+    <form action="//concerts-add/confirmation" method="post">
         <input type="hidden" name="tak">
          <div class="row">
-         <button onclick="location.href='/buy_ticket/confirm?id={{show_id}}'" type="submit" style="margin: 15px" class="btn btn-primary">
-   TAK</button>
-   </div>
-        <input type="hidden" name="nie">
-         <div class="row">
-         <button onclick="location.href='/buy_ticket/confirm?id={{show_id}}'" type="submit" style="margin: 15px" class="btn btn-primary">
-   NIE</button>
-   </div>
+         <button type="submit" style="margin: 15px" class="btn btn-primary">
+             TAK</button>
+         </div>
+    </form>
+
+        <div class="row">
+         <button onclick="location.href='/'" style="margin: 15px" class="btn btn-primary">
+             NIE</button>
+         </div>
 
 
     <br>
@@ -33,6 +35,8 @@
         <div>
          <h5><a href="/"><i class="fas fa-home">  Home</i></a></h5>
     </div>
+
+    </form>
 
 
 

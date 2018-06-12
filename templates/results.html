@@ -5,10 +5,11 @@
 {% block content %}
 <br>
 
- <h3>Wyniki wyszukiwania:</h3>
+<p style="font-size:30px;font-family:verdana;">Wyniki wyszukiwania:</p>
         <br>
 
        {%for show in shows%}
+
 
       {%if data_query4 <= show.data <= data_query5%}
         <dl>
@@ -22,6 +23,7 @@
 
 
         {% endif %}
+
         {%endfor%}
 
         {%if data_query4 > data_query5%}

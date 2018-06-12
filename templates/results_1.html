@@ -1,16 +1,17 @@
 {% extends "_base.html" %}
 
-{% set page_id = 'results' %}
+{% set page_id = 'results1' %}
 
 {% block content %}
 <br>
 
- <h3>Wyniki wyszukiwania:</h3>
+<p style="font-size:30px;font-family:verdana;">Wyniki wyszukiwania:</p>
         <br>
 
-       {%for show in shows%}
+{%for show in shows%}
 
          {%if query in show.band%}
+
         <dl>
        <dt>Nazwa koncertu: <a href="/show/{{ show.id }}">{{ show.name }}</a></dt>
            <br>
@@ -20,8 +21,10 @@
        <dd>Miejsce: {{show.venue}}</dd>
        </dl>
 
+
          {%elif query1 in show.band%}
         <br>
+
 
          <dl>
        <dt>Nazwa koncertu: <a href="/show/{{ show.id }}">{{ show.name }}</a></dt>
@@ -31,6 +34,7 @@
        <dd>Data i godzina koncertu: {{show.data}}, g.{{show.godzina}}</dd>
        <dd>Miejsce: {{show.venue}}</dd>
        </dl>
+
 
         {%elif query2 in show.band%}
         <br>
@@ -44,7 +48,8 @@
        <dd>Miejsce: {{show.venue}}</dd>
        </dl>
 
-      {% endif %}
+{%endif%}
+
         {%endfor%}
 
         <br>
