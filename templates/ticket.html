@@ -9,17 +9,10 @@
 <div class="row">
     <div class="col-12">
 
-
-        <br><br>
-
-
-        <p style="font-size:30px;font-family:verdana;">Podsumowanie zakupów dla użytkownika {{ ticket.user_login }}:</p>
-
-
-
-        <br>
-
         {% if current_user.username==ticket.user_login %}
+                    <br><br>
+        <p style="font-size:30px;font-family:verdana;">Podsumowanie zakupów dla użytkownika {{ ticket.user_login }}:</p>
+        <br>
         <!--login kupującego: {{ ticket.user_login }} <br>-->
         <!--numer koncertu: {{ticket.show_id}} <br>-->
         {% if ticket.nr_plyta_ticket>0 %}Ilość biletów na płytę: {{  ticket.nr_plyta_ticket }} <br>
@@ -33,11 +26,8 @@
 
         {% if ticket.nr_vip_ticket>0%} Ilość biletów VIP: {{  ticket.nr_vip_ticket }} <br>
         Lączna wartość biletów VIP: {{  "%.2f"|format(ticket.price_vip_ticket) }} zł <br>{%endif%}
-        {% else %}
-        Tu nie ma żadnych informacji dla Ciebie :-)
-        {% endif %}
-
-        <br>
+            
+             <br>
         <br>
 
         <h3>Do zapłaty łącznie: {{ "%.2f"|format(ticket.price_plyta_ticket + ticket.price_trybuny_ticket +
@@ -51,6 +41,10 @@
         <br>
         <br>
         <br>
+            
+        {% else %}
+        <br> Tu nie ma żadnych informacji dla Ciebie :-)
+        {% endif %}
 
 
         <div>
