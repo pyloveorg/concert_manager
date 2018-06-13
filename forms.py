@@ -1,4 +1,4 @@
-from flask_wtf import FlaskForm, Form
+from flask_wtf import Form
 from wtforms import StringField, TextAreaField, SubmitField, validators, ValidationError
 
 
@@ -8,12 +8,6 @@ class ContactForm(Form):
   subject = StringField("Temat",  [validators.DataRequired("Proszę wpisać temat.")])
   message = TextAreaField("Wiadomość",  [validators.DataRequired("Proszę wpisac wiadomość.")])
   submit = SubmitField("Wyślij")
-
-
-class SendMail(Form):
-  tak = SubmitField("TAK", [validators.DataRequired()])
-  nie = SubmitField("NIE", [validators.DataRequired()])
-  message = TextAreaField("Wiadomość", [validators.DataRequired("Proszę wpisac wiadomość.")])
 
 
 
