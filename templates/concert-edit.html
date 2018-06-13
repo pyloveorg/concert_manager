@@ -25,11 +25,11 @@
        <br>
         * Pola obowiązkowe
         <br><br>Nazwa koncertu *
-        <input type="text" name="name" value = "{{new_koncert.name}}" required>
+        <input type="text" name="name" value = "{{new_koncert.name}}" required size="70" maxlength="100">
         <br><br>Nazwa wykonawcy *
-        <input type="text" name="band" value = "{{new_koncert.band}}" required>
-        <br><br>Opis wydarzenia<br>
-        <textarea name="opis"  rows="5" cols="100">{{new_koncert.opis}}</textarea>
+        <input type="text" name="band" value = "{{new_koncert.band}}" required size="70" maxlength="100">
+        <br><br>Opis wydarzenia <i>(max. 2000 znaków)</i><br>
+        <textarea name="opis"  rows="5" cols="170", maxlength="2000">{{new_koncert.opis}}</textarea>
         <br>
         <br><br>Gatunek * <i>(folk, hip-hop, piosenka dziecięca, metal, pop, inny)</i>
         <input type="text" name="gatunek" value = "{{new_koncert.gatunek}}" required>
@@ -65,7 +65,7 @@
         <br><br>Sugerowana pula biletow VIP
         <input type="number" name="nr_vip_ticket" value="{{koncert.nr_vip_ticket}}">
         <br><br>Zmień url:
-        <input type="url" name="picurl" class = "foto">
+        <input type="url" name="picurl" class = "foto" size="70" maxlength="300" value = "{{new_koncert.picurl}}">
 
         <br>
         <br>

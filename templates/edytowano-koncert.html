@@ -1,0 +1,44 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/main.css') }}"/>
+</head>
+<br>
+        <p>Dzięki, {{ current_user.username }}! :-)
+        Edytowałeś koncert!
+        </p>
+<br>
+        Czy chcesz wysłać email do użytkowników zarejestrowanych na to wydarzenie z informacją o zmianie?
+<br>
+<br>
+<form method="post">
+    <form action="//concerts-edit/confirmation" method="post">
+        <input type="hidden" name="tak">
+         <div class="row">
+         <button type="submit" style="margin: 15px" class="btn btn-primary">
+             TAK</button>
+         </div>
+    </form>
+
+        <div class="row">
+         <button onclick="location.href='/'" style="margin: 15px" class="btn btn-primary">
+             NIE</button>
+         </div>
+
+
+    <br>
+    <br>
+
+        <div>
+         <h5><a href="/"><i class="fas fa-home">  Home</i></a></h5>
+    </div>
+
+    </form>
+
+
+
+
+{% endblock %}
