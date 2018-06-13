@@ -1,0 +1,87 @@
+{% extends "_base.html" %}
+
+{% set page_id = 'concert-edit' %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/main.css') }}"/>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+</head>
+
+
+  <div class="row">
+    <div class="col-12">
+      <h3>{{ naglowek }}</h3> <br>
+        {% if current_user.is_authenticated %}
+        <h4>{{ current_user.username }}, edytuj pola poniżej:</h4>
+        {%endif%}
+    </div>
+  </div>
+
+
+    <form method="post">
+    <form action="{{ url_for('concert_edit', id=new_koncert.id) }}" method="post">
+       <br>
+        * Pola obowiązkowe
+        <br><br>Nazwa koncertu *
+        <input type="text" name="name" value = "{{new_koncert.name}}" required size="70" maxlength="100">
+        <br><br>Nazwa wykonawcy *
+        <input type="text" name="band" value = "{{new_koncert.band}}" required size="70" maxlength="100">
+        <br><br>Opis wydarzenia <i>(max. 2000 znaków)</i><br>
+        <textarea name="opis"  rows="5" cols="170", maxlength="2000">{{new_koncert.opis}}</textarea>
+        <br>
+        <br><br>Gatunek * <i>(folk, hip-hop, piosenka dziecięca, metal, pop, inny)</i>
+        <input type="text" name="gatunek" value = "{{new_koncert.gatunek}}" required>
+        <br><br>Cena biletu kat 1 - płyta
+        <input type="number" name="price_plyta_ticket" value = "{{koncert.price_plyta_ticket}}" > PLN
+        <br><br>Cena biletu kat 2 - trybuny
+        <input type="number" name="price_trybuny_ticket" value="{{koncert.price_trybuny_ticket}}"> PLN
+        <br><br>Cena biletu kat 3 - Golden Circle
+        <input type="number" name="price_gc_ticket" value="{{koncert.price_gc_ticket}}"> PLN
+        <br><br>Cena biletu kat 4 - VIP
+        <input type="number" name="price_vip_ticket" value="{{koncert.price_vip_ticket}}"> PLN
+
+         <br><br>Data wydarzenia *
+        <input type="date" name="data" value="{{koncert.data}}">
+        <br><br>Godzina wydarzenia *
+        <input type="time" name="godzina" value="{{koncert.godzina}}">
+
+        <br><br>Lokalizacja *
+        <select name="venue" required>
+            <option>Poznań Arena</option>
+            <option>Poznań Zamek</option>
+            <option>Inna lokalizacja</option>
+	        <option selected="selected">Warszawa Torwar<option>
+            </select>
+        <input type="text" name="venue" value="{{new_koncert.venue}}">
+        <br><br>Pula biletow na płytę
+        <input type="number" name="nr_plyta_ticket" value="{{koncert.nr_plyta_ticket}}">
+        <br><br>Sugerowana pula biletow na trybuny
+        <input type="number" name="nr_trybuny_ticket" value="{{koncert.nr_trybuny_ticket}}">
+
+        <br><br>Sugerowana pula biletow na Golden Circle
+        <input type="number" name="nr_gc_ticket" value="{{koncert.nr_gc_ticket}}">
+        <br><br>Sugerowana pula biletow VIP
+        <input type="number" name="nr_vip_ticket" value="{{koncert.nr_vip_ticket}}">
+        <br><br>Zmień url:
+        <input type="url" name="picurl" class = "foto" size="70" maxlength="300" value = "{{new_koncert.picurl}}">
+
+        <br>
+        <br>
+
+        <button type="submit" class="btn btn-primary">Zachowaj zmiany</button>
+
+
+        <br><br>
+
+
+ <br><br>
+
+    <h5><a href="/"><i class="fas fa-home">  Home</i></a></h5>
+     </form>
+
+ <br><br>
+    </form>
+
+{% endblock %}
