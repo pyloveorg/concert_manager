@@ -20,8 +20,6 @@ Dotychczas kupiłeś przez serwis Concert Manager:
  <ul>
   {% for i in ticket %}
 
-     <!--<button onclick="location.href='/ticket?id={{i.ticket_id}}'" type="button">-->
-     <!--Bilety na koncert {{i.band}}</button>-->
      <br>
 
      <li>   <a href="/ticket?id={{i.ticket_id}}"><i class="fas fa-ticket-alt"></i> Bilety na koncert {{i.name}}</a> </li>

@@ -63,7 +63,7 @@ class Ticket(db.Model):
     nr_vip_ticket = db.Column(Integer)
     price_vip_ticket = db.Column(db.Float)
     show_id = db.Column(Integer)
-    name = db.Column(db.String(30))
+    name = db.Column(db.String(100))
 
     def get(self):
         return str(self)
@@ -74,7 +74,7 @@ class Concert(db.Model):
     id = Column(Integer, autoincrement=True, primary_key=True)
     band = db.Column(String(30))
     name = db.Column(db.String(100))
-    opis = db.Column(String(200), default="")
+    opis = db.Column(String(2000), default="")
     gatunek = db.Column(String(20))
     price_plyta_ticket = db.Column(db.Float)
     price_trybuny_ticket = db.Column(db.Float)

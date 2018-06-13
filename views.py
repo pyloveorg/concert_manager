@@ -6,7 +6,7 @@ from flask import render_template, request, session, abort, url_for, redirect, f
 from flask_login import login_user, login_required, logout_user, current_user
 from functools import wraps
 from datetime import datetime, date
-from forms import ContactForm, SendMail
+from forms import ContactForm
 from flask_mail import Message, Mail
 import time
 import re
@@ -164,7 +164,7 @@ def concerts_confirm():
 
 @app.route("/concerts-edit/<int:id>", methods = ['GET', "POST"])
 @login_required
-@requires_roles("admin", "organizer")
+@requires_roles("admin")
 def concert_edit(id):
     koncert = db.session.query(Concert).get(id)
     new_koncert = db.session.query(Concert).get(id)
@@ -212,10 +212,21 @@ def concert_edit(id):
         db.session.delete(koncert)
         db.session.commit()
 
-        flash('Edytowałeś koncert!', 'success')
-        return redirect('/')
+        # flash('Edytowałeś koncert!', 'success')
+        return redirect('/concerts-edit/confirmation')
 
     return render_template('concert-edit.html', id=id, koncert=koncert, new_koncert=new_koncert)
+
+@app.route("/concerts-edit/confirmation", methods=['GET', 'POST'])
+@login_required
+@requires_roles("admin")
+def concerts_edit_confirm():
+    if request.method == 'POST':
+        tak = request.form["tak"]
+        flash("Wiadomość email została wysłana!", "success")
+        return render_template('edytowano-koncert.html', tak=tak)
+
+    return render_template('edytowano-koncert.html')
 
 #strona do usuwania koncertow - tylko dla admina
 @app.route("/concerts-delete/<int:id>", methods=['GET', 'POST'])
@@ -404,20 +415,22 @@ def search():
 # wyniki wyszukiwania
 
 # po nazwie zespołu
-@app.route('/results/band', methods=['GET', 'POST'])
+@app.route('/results/band', methods=['GET'])
 def results_b():
-    shows = Concert.query.all()
+    now = date.today()
+    shows = Concert.query.filter(Concert.data >= now).all()
     shows.sort(key=lambda x: x.data, reverse=True)
     query = str(request.args.get('query'))
     query1 = query.title()
     query2 = query.upper()
 
-    return render_template('results_1.html', session=session, shows=shows, query=query, query1=query1, query2=query2)
+    return render_template('results_1.html', query=query, query1=query1, query2=query2, shows=shows)
 
 # po miejscu wydarzenia
 @app.route('/results/venue', methods=['GET', 'POST'])
 def results_v():
-    shows = Concert.query.all()
+    now = date.today()
+    shows = Concert.query.filter(Concert.data >= now).all()
     shows.sort(key=lambda x: x.data, reverse=True)
     query = str(request.args.get('query'))
     query1 = query.title()
@@ -426,7 +439,8 @@ def results_v():
 # po gatunku
 @app.route('/results/gatunek', methods=['GET', 'POST'])
 def results_g():
-    shows = Concert.query.all()
+    now = date.today()
+    shows = Concert.query.filter(Concert.data >= now).all()
     shows.sort(key=lambda x: x.data, reverse=True)
     query = str(request.args.get('query'))
     query3 = query.lower()
@@ -435,7 +449,8 @@ def results_g():
 # po dacie wydarzenia
 @app.route('/results/date', methods=['GET', 'POST'])
 def results():
-    shows = Concert.query.all()
+    now = date.today()
+    shows = Concert.query.filter(Concert.data >= now).all()
     shows.sort(key=lambda x: x.data, reverse=True)
     year, month, day = map(int, request.args.get('query4').split("-"))
     data_query4 = date(year, month, day)
