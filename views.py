@@ -224,7 +224,7 @@ def concerts_edit_confirm():
     if request.method == 'POST':
         tak = request.form["tak"]
         flash("Wiadomość email została wysłana!", "success")
-        return render_template('edytowano-koncert.html', tak=tak)
+        return redirect("/")
 
     return render_template('edytowano-koncert.html')
 
