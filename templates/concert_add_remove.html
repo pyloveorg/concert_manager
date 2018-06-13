@@ -26,11 +26,11 @@
        <br>
         * Pola obowiązkowe
         <br><br>Nazwa koncertu *
-        <input type="text" name="name" required>
+        <input type="text" name="name" required size="70" maxlength="100">
         <br><br>Nazwa wykonawcy *
-        <input type="text" name="band" required>
-        <br><br>Opis wydarzenia<br>
-        <textarea name="opis" rows="5" cols="100"></textarea>
+        <input type="text" name="band" required size="70" maxlength="100">
+        <br><br>Opis wydarzenia <i>(max. 2000 znaków)</i><br>
+        <textarea name="opis" rows="5" cols="170", maxlength="2000"></textarea>
         <br>
         <br><br>Gatunek *
         <select name="gatunek" required>
@@ -38,7 +38,8 @@
             <option>hip-hop</option>
             <option>pisenka dziecięca</option>
 	        <option>rock</option>
-            <option>inny</option>
+            <option>metal</option>
+            <option>pop</option>
             </select>
         <br><br>Cena biletu kat 1 - płyta
         <input type="number" name="price_plyta_ticket" value="0"> PLN
@@ -70,12 +71,12 @@
         <br><br>Sugerowana pula biletow VIP
         <input type="number" name="nr_vip_ticket" value="0">
         <br><br> Dodaj plakat / zdjęcie wydarzenia w formie url:
-        <input type="url" class = "foto" name="picurl" value="http://www.cdn.ug.edu.pl/wp-content/uploads/2017/01/koncert.jpg">
+        <input type="url" class = "foto" name="picurl" value="http://www.cdn.ug.edu.pl/wp-content/uploads/2017/01/koncert.jpg" size="70" maxlength="300">
 
 
         <br><br>
            <div class="row">
-         <button onclick="location.href='/buy_ticket/confirm?id={{show_id}}'" type="submit" style="margin: 15px" class="btn btn-primary">
+         <button type="submit" style="margin: 15px" class="btn btn-primary">
    Dodaj wydarzenie</button>
    </div>
 
