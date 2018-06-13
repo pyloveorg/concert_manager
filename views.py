@@ -211,10 +211,21 @@ def concert_edit(id):
         db.session.delete(koncert)
         db.session.commit()
 
-        flash('Edytowałeś koncert!', 'success')
-        return redirect('/')
+        # flash('Edytowałeś koncert!', 'success')
+        return redirect('/concerts-edit/confirmation')
 
     return render_template('concert-edit.html', id=id, koncert=koncert, new_koncert=new_koncert)
+
+@app.route("/concerts-edit/confirmation", methods=['GET', 'POST'])
+@login_required
+@requires_roles("admin")
+def concerts_edit_confirm():
+    if request.method == 'POST':
+        tak = request.form["tak"]
+        flash("Wiadomość email została wysłana!", "success")
+        return render_template('edytowano-koncert.html', tak=tak)
+
+    return render_template('edytowano-koncert.html')
 
 #strona do usuwania koncertow - tylko dla admina
 @app.route("/concerts-delete/<int:id>", methods=['GET', 'POST'])
