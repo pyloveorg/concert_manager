@@ -1,4 +1,3 @@
-__author__ = 'Piotr Dyba, Krzysztof Michalak'
 
 from os import path, urandom
 
