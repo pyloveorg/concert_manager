@@ -1,4 +1,3 @@
-__author__ = 'Piotr Dyba, Krzysztof Michalak'
 
 from sqlalchemy import Column, DateTime
 from sqlalchemy.types import Integer
